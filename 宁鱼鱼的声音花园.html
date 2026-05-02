@@ -1,0 +1,1620 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>宁鱼鱼的声音花园 · 高考英语听力训练系统</title>
+<style>
+/* ═══════════════════════════════════════════ */
+/* 宁鱼鱼的声音花园 · Design System v2        */
+/* ═══════════════════════════════════════════ */
+
+/* ── Light Theme (Default) ── */
+:root {
+  --primary: #7C3AED;
+  --primary-light: #A78BFA;
+  --primary-dark: #6D28D9;
+  --accent: #EC4899;
+  --accent-light: #F472B6;
+  --green: #10B981;
+  --green-dark: #059669;
+  --sky: #0EA5E9;
+  --sky-light: #38BDF8;
+  --bg: #F8FAFC;
+  --bg-card: #FFFFFF;
+  --bg-card-alt: #F1F5F9;
+  --text: #1E293B;
+  --text-secondary: #64748B;
+  --text-muted: #94A3B8;
+  --border: #E2E8F0;
+  --shadow: 0 2px 8px rgba(0,0,0,0.05);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+  --shadow-lg: 0 4px 20px rgba(0,0,0,0.1);
+  --radius-sm: 8px;
+  --radius: 12px;
+  --radius-lg: 16px;
+  --success: #10B981;
+  --warning: #F59E0B;
+  --error: #EF4444;
+  --info: #0EA5E9;
+  --card: #fff;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+  --z-fish: 99;
+  --z-theme-toggle: 100;
+  --z-fish-cheer: 300;
+  --z-modal-backdrop: 900;
+  --z-modal: 1000;
+  --z-tts-stop: 9999;
+}
+
+/* ── Dark Theme ── */
+[data-theme="dark"] {
+  --primary: #A78BFA;
+  --primary-light: #C4B5FD;
+  --primary-dark: #7C3AED;
+  --accent: #F472B6;
+  --accent-light: #FBCFE8;
+  --bg: #0F172A;
+  --bg-card: #1E293B;
+  --bg-card-alt: #334155;
+  --text: #F1F5F9;
+  --text-secondary: #CBD5E1;
+  --text-muted: #94A3B8;
+  --border: #334155;
+  --shadow: 0 2px 8px rgba(0,0,0,0.4);
+  --shadow-lg: 0 4px 20px rgba(0,0,0,0.6);
+  --info: #38BDF8;
+  --card: #1E293B;
+}
+
+/* ── Base Reset ── */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { font-size: 16px; scroll-behavior: smooth; overflow-x: hidden; max-width: 100vw; }
+body {
+  font-family: 'Segoe UI', 'Microsoft YaHei', 'PingFang SC', system-ui, sans-serif;
+  background: var(--bg); color: var(--text); line-height: 1.6;
+  transition: background 0.3s ease, color 0.3s ease;
+  touch-action: manipulation; -webkit-tap-highlight-color: transparent;
+  overflow-x: hidden; max-width: 100vw;
+  padding: var(--safe-top) var(--safe-right) var(--safe-bottom) var(--safe-left);
+}
+
+/* ── Focus Visible ── */
+:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; border-radius: 2px; }
+:focus:not(:focus-visible) { outline: none; }
+
+/* ── Reduced Motion ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ── Theme Toggle ── */
+.theme-toggle {
+  position: fixed; top: 14px; right: 20px; z-index: var(--z-theme-toggle);
+  width: 42px; height: 42px; border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.35); background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(10px); cursor: pointer; font-size: 1.25em;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.3s ease; color: white; line-height: 1;
+}
+.theme-toggle:hover { background: rgba(255,255,255,0.25); transform: scale(1.1); }
+[data-theme="dark"] .theme-toggle {
+  border-color: rgba(255,255,255,0.2); background: rgba(255,255,255,0.06);
+}
+
+/* ── Fish Mascots ── */
+.fish-left, .fish-right { position: fixed; z-index: var(--z-fish); pointer-events: none; }
+.fish-left { top: 6px; left: 18px; }
+.fish-right { top: 6px; right: 75px; }
+.fish-mascot {
+  font-size: 2em; display: inline-block; cursor: pointer;
+  pointer-events: auto; user-select: none; position: relative;
+  transition: transform 0.2s ease;
+}
+.fish-mascot:hover { transform: scale(1.35); }
+.fish-mascot:active { transform: scale(0.85); }
+
+@keyframes fish-nini {
+  0%,100% { transform: translateY(0) rotate(0deg) scale(1); }
+  15% { transform: translateY(-8px) rotate(-4deg) scale(1.08); }
+  30% { transform: translateY(2px) rotate(2deg) scale(0.95); }
+  45% { transform: translateY(-5px) rotate(-3deg) scale(1.04); }
+  60% { transform: translateY(0) rotate(0deg) scale(1); }
+}
+@keyframes fish-yuyu {
+  0%,100% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-5px) rotate(-2deg); }
+  75% { transform: translateY(5px) rotate(2deg); }
+}
+.fish-nini { animation: fish-nini 3.5s ease-in-out infinite; }
+.fish-yuyu { animation: fish-yuyu 4.5s ease-in-out infinite; }
+
+.fish-bubbles { position: absolute; top: 0; left: 0; pointer-events: none; }
+.fish-bubble {
+  position: absolute; font-size: 0.55em; opacity: 0;
+  animation: bubble-up 2.8s ease-out infinite;
+}
+.fish-bubble:nth-child(1) { animation-delay: 0s; left: 4px; top: 6px; }
+.fish-bubble:nth-child(2) { animation-delay: 1.4s; left: 8px; top: 10px; }
+@keyframes bubble-up {
+  0% { opacity: 0; transform: translateY(0) scale(0.4); }
+  15% { opacity: 0.7; }
+  100% { opacity: 0; transform: translateY(-26px) scale(1.1); }
+}
+
+.fish-cheer {
+  position: fixed; top: 18%; left: 50%; transform: translate(-50%,-50%);
+  background: var(--bg-card); color: var(--text);
+  padding: 10px 22px; border-radius: 24px; box-shadow: var(--shadow-lg);
+  z-index: var(--z-fish-cheer); font-size: 0.95em; font-weight: 600;
+  pointer-events: none; opacity: 0; white-space: nowrap;
+  border: 2px solid var(--primary-light);
+}
+.fish-cheer.pop {
+  animation: cheer-pop 2.2s ease-out forwards;
+}
+@keyframes cheer-pop {
+  0% { opacity: 0; transform: translate(-50%,-50%) scale(0.5); }
+  12% { opacity: 1; transform: translate(-50%,-50%) scale(1.08); }
+  22% { transform: translate(-50%,-50%) scale(1); }
+  75% { opacity: 1; }
+  100% { opacity: 0; transform: translate(-50%,-85%) scale(0.9); }
+}
+
+/* ── Header ── */
+.header {
+  background: linear-gradient(135deg, #7C3AED 0%, #6D28D9 25%, #059669 65%, #10B981 100%);
+  color: white; padding: 25px 30px; text-align: center;
+  box-shadow: 0 4px 20px rgba(124,58,237,0.3);
+  position: relative; overflow: hidden;
+}
+.header h1 { font-size: 2em; margin-bottom: 5px; position: relative; z-index: 1; }
+.header p { opacity: 0.9; font-size: 1em; position: relative; z-index: 1; }
+[data-theme="dark"] .header {
+  background: linear-gradient(135deg, #4C1D95 0%, #3B1578 25%, #064E3B 65%, #065F46 100%);
+  box-shadow: 0 4px 20px rgba(76,29,149,0.4);
+}
+
+/* ── Stats Bar ── */
+.stats-bar {
+  display: flex; justify-content: center; gap: 25px; flex-wrap: wrap;
+  padding: 14px 15px; background: var(--bg-card); margin: 15px 20px;
+  border-radius: var(--radius); box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+.stat-card { text-align: center; min-width: 90px; }
+.stat-card .num {
+  font-size: 1.8em; font-weight: bold;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.stat-card .label { font-size: 0.8em; color: var(--text-secondary); }
+
+/* ── Tab Navigation ── */
+.tab-nav {
+  display: flex; justify-content: center; flex-wrap: wrap; gap: 3px;
+  padding: 6px 10px; background: var(--bg-card); margin: 0 20px;
+  border-radius: var(--radius) var(--radius) 0 0;
+  box-shadow: var(--shadow); border: 1px solid var(--border);
+  transition: background 0.3s ease;
+}
+.tab-btn {
+  padding: 9px 18px; border: none; background: transparent;
+  cursor: pointer; font-size: 0.88em; border-radius: 22px;
+  transition: all 0.25s ease; font-weight: 500; color: var(--text-secondary);
+}
+.tab-btn:hover { background: rgba(124,58,237,0.08); color: var(--primary); }
+.tab-btn.active {
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: white; box-shadow: 0 2px 12px rgba(124,58,237,0.4);
+}
+
+.main-container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+
+.tab-content { display: none; }
+.tab-content.active { display: block; animation: fadeSlideIn 0.3s ease; }
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Cards ── */
+.card {
+  background: var(--bg-card); border-radius: var(--radius);
+  padding: 20px 25px; margin-bottom: 15px;
+  box-shadow: var(--shadow); border: 1px solid var(--border);
+  transition: all 0.3s ease;
+}
+.card h2 { color: var(--primary); margin-bottom: 12px; font-size: 1.3em; border-bottom: 2px solid var(--primary-light); padding-bottom: 8px; }
+.card h3 { color: var(--text); margin: 12px 0 8px; font-size: 1.1em; }
+
+/* ── Year Selector ── */
+.year-selector { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+.year-btn {
+  padding: 10px 16px; border: 2px solid var(--border); border-radius: var(--radius-sm);
+  background: var(--bg-card); cursor: pointer; font-size: 0.9em;
+  transition: all 0.2s ease; color: var(--text-secondary);
+}
+.year-btn:hover { border-color: var(--primary-light); background: rgba(124,58,237,0.05); }
+.year-btn.active { border-color: var(--green); background: rgba(16,185,129,0.1); font-weight: bold; color: var(--green); }
+
+/* ── Audio Player ── */
+.audio-player {
+  background: var(--bg-card-alt); border-radius: var(--radius-sm);
+  padding: 15px 20px; margin: 15px 0; display: flex; align-items: center; gap: 15px;
+  border: 1px solid var(--border);
+}
+.audio-player audio { flex: 1; }
+
+/* ── Question Block ── */
+.question-block {
+  border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: 12px 15px; margin: 8px 0; background: var(--bg-card-alt);
+  transition: background 0.3s ease;
+}
+.question-block .q-header { display: flex; justify-content: space-between; align-items: center; }
+.question-block .q-num { font-weight: bold; color: var(--primary); }
+.question-block .q-text { margin: 5px 0; color: var(--text); }
+.question-block .q-options { display: flex; gap: 30px; margin: 5px 0; color: var(--text-secondary); }
+.answer-hidden { color: transparent; background: var(--bg-card-alt); border-radius: 4px; padding: 2px 8px; cursor: pointer; user-select: none; border: 1px solid var(--border); }
+.answer-shown { color: var(--accent); font-weight: bold; }
+
+/* ── Buttons ── */
+.btn {
+  padding: 8px 16px; border: none; border-radius: 8px; cursor: pointer;
+  font-size: 0.9em; font-weight: 500; transition: all 0.2s ease; margin: 3px;
+  color: white;
+}
+.btn:active { transform: scale(0.97); }
+.btn-primary {
+  background: linear-gradient(135deg, var(--sky), #0284C7);
+  box-shadow: 0 2px 8px rgba(14,165,233,0.3);
+}
+.btn-primary:hover { box-shadow: 0 4px 16px rgba(14,165,233,0.45); transform: translateY(-1px); }
+.btn-success {
+  background: linear-gradient(135deg, var(--green), var(--green-dark));
+  box-shadow: 0 2px 8px rgba(16,185,129,0.3);
+}
+.btn-success:hover { box-shadow: 0 4px 16px rgba(16,185,129,0.45); transform: translateY(-1px); }
+.btn-warning { background: linear-gradient(135deg, var(--warning), #D97706); }
+.btn-sm { padding: 4px 10px; font-size: 0.8em; border-radius: 6px; }
+
+/* ── Script Box ── */
+.script-box {
+  background: var(--bg-card-alt); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 15px; margin: 10px 0; display: none;
+  max-height: 300px; overflow-y: auto; font-size: 0.9em;
+  white-space: pre-wrap; line-height: 1.8; color: var(--text);
+}
+.script-box.show { display: block; }
+
+/* ── Scenario Vocab ── */
+.scenario-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 15px; }
+
+/* Individual flip card in vocab grid */
+.vocab-item {
+  perspective: 800px; height: 140px; cursor: pointer;
+}
+.vocab-item-inner {
+  position: relative; width: 100%; height: 100%;
+  transition: transform 0.5s ease;
+  transform-style: preserve-3d;
+}
+.vocab-item.flipped .vocab-item-inner { transform: rotateY(180deg); }
+.vocab-item-front, .vocab-item-back {
+  position: absolute; inset: 0; backface-visibility: hidden;
+  border-radius: var(--radius-sm); border: 1px solid var(--border);
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 12px; background: var(--bg-card); color: var(--text);
+}
+.vocab-item-front {
+  justify-content: space-between; position: relative;
+}
+.vocab-item-front:hover, .vocab-item-back:hover { border-color: var(--primary-light); }
+.vocab-item-front .en { font-weight: bold; color: var(--primary); font-size: 1.05em; }
+.vocab-item-front .zh { color: var(--text-secondary); font-size: 0.9em; }
+.vocab-item-front .note { color: var(--text-muted); font-size: 0.8em; font-style: italic; }
+.vocab-item-back {
+  transform: rotateY(180deg);
+  flex-direction: column; align-items: stretch; justify-content: center; gap: 6px;
+}
+.vocab-item-back .spell-prompt { font-size: 0.85em; color: var(--text-secondary); text-align: center; }
+.vocab-item-back .spell-row { display: flex; gap: 6px; }
+.vocab-item-back .spell-row input {
+  flex: 1; padding: 6px 10px; border: 2px solid var(--border); border-radius: 6px;
+  font-size: 1em; background: var(--bg); color: var(--text);
+  min-width: 0; font-family: inherit;
+}
+.vocab-item-back .spell-row input:focus { border-color: var(--primary); outline: none; }
+.vocab-item-back .spell-row button {
+  flex-shrink: 0; padding: 6px 12px; border: none; border-radius: 6px;
+  font-size: 0.85em; cursor: pointer; font-weight: bold;
+  background: var(--primary); color: white; min-height: 36px;
+}
+.vocab-item-back .spell-row button:active { transform: scale(0.95); }
+.vocab-item-back .spell-result { font-size: 0.85em; font-weight: bold; text-align: center; min-height: 1.2em; }
+
+/* Flip hint icon */
+.vocab-item .flip-hint {
+  position: absolute; bottom: 4px; right: 6px; font-size: 0.7em;
+  color: var(--text-muted); opacity: 0.6; pointer-events: none;
+}
+
+/* Card flip feedback animations */
+@keyframes shake {
+  0%,100% { transform: rotateY(180deg) translateX(0); }
+  15%,45%,75% { transform: rotateY(180deg) translateX(-5px); }
+  30%,60%,90% { transform: rotateY(180deg) translateX(5px); }
+}
+.vocab-item.shake .vocab-item-inner { animation: shake 0.5s ease; }
+@keyframes success-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(16,185,129,0.5); }
+  70% { box-shadow: 0 0 0 10px rgba(16,185,129,0); }
+  100% { box-shadow: 0 0 0 0 rgba(16,185,129,0); }
+}
+.vocab-item.success-pulse .vocab-item-inner { animation: success-pulse 0.6s ease; }
+.vocab-item.success-pulse { border-radius: var(--radius-sm); animation: success-glow 0.6s ease; }
+@keyframes success-glow {
+  0% { box-shadow: 0 0 0 0 rgba(16,185,129,0.5); }
+  70% { box-shadow: 0 0 0 12px rgba(16,185,129,0); }
+  100% { box-shadow: 0 0 0 0 rgba(16,185,129,0); }
+}
+
+/* Learned state override for flip cards */
+.vocab-item.learned .vocab-item-front { background: #d5f5e3; border-color: var(--green); }
+[data-theme="dark"] .vocab-item.learned .vocab-item-front { background: #064e3b; }
+
+/* ── Progress Table ── */
+.progress-table { width: 100%; border-collapse: separate; border-spacing: 0; margin: 10px 0; border-radius: var(--radius-sm); overflow: hidden; }
+.progress-table th, .progress-table td { padding: 10px; text-align: center; border-bottom: 1px solid var(--border); }
+.progress-table th { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; }
+.progress-table tr:hover td { background: var(--bg-card-alt); }
+.progress-table td { color: var(--text); }
+.star { cursor: pointer; font-size: 1.2em; filter: grayscale(1); }
+.star.earned { filter: none; }
+
+/* ── Note Area ── */
+.note-area {
+  width: 100%; min-height: 100px; border: 2px solid var(--border);
+  border-radius: var(--radius-sm); padding: 12px; font-family: inherit;
+  font-size: 0.95em; resize: vertical; background: var(--bg-card); color: var(--text);
+  transition: border-color 0.2s ease;
+}
+.note-area:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 3px rgba(124,58,237,0.1); }
+
+/* ── Modal ── */
+.modal {
+  display: none; position: fixed; top:0; left:0; width:100%; height:100%;
+  background: rgba(0,0,0,0.6); z-index: var(--z-modal); justify-content: center; align-items: center;
+}
+@supports (backdrop-filter: blur(4px)) {
+  .modal { background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); }
+}
+.modal-content h2 { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.modal.show { display: flex; }
+.modal-content {
+  background: var(--bg-card); border-radius: var(--radius); padding: 25px;
+  max-width: 800px; width: 90%; max-height: 80vh; overflow-y: auto;
+  box-shadow: var(--shadow-lg); border: 1px solid var(--border);
+  color: var(--text);
+}
+.modal-close { float: right; cursor: pointer; font-size: 1.5em; color: var(--text-muted); transition: color 0.2s; }
+.modal-close:hover { color: var(--accent); }
+
+/* ── Search ── */
+.search-box {
+  width: 100%; padding: 10px 15px; border: 2px solid var(--border);
+  border-radius: var(--radius-sm); font-size: 1em; margin-bottom: 10px;
+  background: var(--bg-card); color: var(--text);
+  transition: all 0.2s ease;
+}
+.search-box:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 3px rgba(124,58,237,0.1); }
+
+/* ── Flashcard Mode ── */
+.flashcard {
+  perspective: 1000px; width: 300px; height: 180px; margin: 20px auto; cursor: pointer;
+}
+.flashcard-inner {
+  position: relative; width: 100%; height: 100%; transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+.flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+.flashcard-front, .flashcard-back {
+  position: absolute; width: 100%; height: 100%; backface-visibility: hidden;
+  border-radius: var(--radius); display: flex; flex-direction: column; align-items: center; justify-content: center;
+  font-size: 1.4em; font-weight: bold; gap: 8px; padding: 8px 40px;
+}
+.flashcard-front { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; position:relative; }
+.flashcard-back { background: linear-gradient(135deg, var(--green), var(--green-dark)); color: white; transform: rotateY(180deg); }
+
+/* ── TTS (Text-to-Speech) Styles ── */
+.tts-btn { display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;min-width:32px;min-height:32px;
+  border-radius:50%;border:1.5px solid rgba(124,58,237,0.3);background:rgba(124,58,237,0.08);color:var(--primary);
+  cursor:pointer;font-size:0.85em;line-height:1;padding:0;transition:all 0.2s ease;flex-shrink:0;
+  user-select:none;-webkit-tap-highlight-color:transparent; }
+.tts-btn:hover { background:rgba(124,58,237,0.18);border-color:var(--primary);transform:scale(1.1); }
+.tts-btn:active { background:rgba(124,58,237,0.28);transform:scale(0.95); }
+[data-theme="dark"] .tts-btn { border-color:rgba(167,139,250,0.35);background:rgba(167,139,250,0.1);color:var(--primary-light); }
+[data-theme="dark"] .tts-btn:hover { background:rgba(167,139,250,0.22); }
+.tts-btn-inline { margin-left:6px;vertical-align:middle; }
+.flashcard-front .tts-btn-card { position:absolute;top:8px;left:10px;width:32px;height:32px;min-width:32px;min-height:32px;font-size:0.8em; }
+.tts-speaking { box-shadow:0 0 0 3px rgba(124,58,237,0.35),0 0 12px rgba(124,58,237,0.2)!important;border-color:var(--primary)!important;
+  animation:tts-pulse 1.2s ease-in-out infinite; }
+@keyframes tts-pulse { 0%,100%{box-shadow:0 0 0 3px rgba(124,58,237,0.35),0 0 12px rgba(124,58,237,0.2);}
+  50%{box-shadow:0 0 0 6px rgba(124,58,237,0.15),0 0 20px rgba(124,58,237,0.35);} }
+[data-theme="dark"] .tts-speaking { box-shadow:0 0 0 3px rgba(167,139,250,0.45),0 0 14px rgba(167,139,250,0.25)!important; }
+.tts-stop-float { position:fixed;bottom:24px;right:20px;z-index:var(--z-tts-stop);width:48px;height:48px;border-radius:50%;
+  border:2px solid var(--error);background:var(--bg-card);color:var(--error);font-size:1.1em;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(239,68,68,0.3);
+  transition:all 0.2s ease;-webkit-tap-highlight-color:transparent; }
+.tts-stop-float:hover { background:var(--error);color:white;transform:scale(1.1); }
+.tts-stop-float:active { transform:scale(0.95); }
+[data-theme="dark"] .tts-stop-float { border-color:#F87171;color:#F87171;box-shadow:0 4px 16px rgba(248,113,113,0.3); }
+@media (max-width:768px) { .tts-btn{width:36px;height:36px;min-width:36px;min-height:36px;font-size:0.9em;}
+  .flashcard-front .tts-btn-card{width:36px;height:36px;min-width:36px;min-height:36px;}
+  .tts-stop-float{width:44px;height:44px;bottom:20px;right:16px;} }
+@media (max-width:480px) { .tts-btn{width:40px;height:40px;min-width:40px;min-height:40px;}
+  .flashcard-front .tts-btn-card{width:40px;height:40px;min-width:40px;min-height:40px;} }
+
+/* ── Responsive: Tablet / Large Phones ── */
+@media (max-width: 768px) {
+  /* Base */
+  html { font-size: 15px; }
+  body { padding: 4px; }
+  .main-container { max-width: 100%; padding: 10px 8px; }
+
+  /* Header */
+  .header { padding: 18px 12px 12px; margin-bottom: 8px; }
+  .header h1 { font-size: 1.3em; }
+  .header p { font-size: 0.78em; }
+
+  /* Tabs: horizontal scroll */
+  .tab-nav { display: flex; flex-wrap: nowrap; overflow-x: auto; gap: 4px; padding: 6px 2px;
+    -webkit-overflow-scrolling: touch; -ms-overflow-style: none; scrollbar-width: none; }
+  .tab-nav::-webkit-scrollbar { display: none; }
+  .tab-btn { padding: 8px 11px; font-size: 0.74em; white-space: nowrap; flex-shrink: 0;
+    border-radius: 22px; min-height: 38px; }
+
+  /* Stats */
+  .stats-bar { gap: 6px; padding: 8px 4px; }
+  .stat-card { padding: 8px 6px; min-width: 0; flex: 1 1 auto; }
+  .stat-card .num { font-size: 1.3em; }
+  .stat-card .label { font-size: 0.7em; }
+
+  /* Cards */
+  .card { padding: 14px 12px; margin-bottom: 10px; border-radius: 12px; }
+
+  /* Year buttons */
+  .year-btn { padding: 6px 10px; font-size: 0.78em; min-height: 36px; border-radius: 8px; }
+
+  /* Audio player */
+  .audio-player { padding: 10px; gap: 8px; }
+  .audio-player button { min-height: 40px; min-width: 40px; padding: 8px 12px; font-size: 0.9em; }
+
+  /* Question options */
+  .q-options { flex-direction: column; gap: 5px; }
+  .q-options label, .q-options button { padding: 10px 12px; font-size: 0.85em; min-height: 42px; }
+
+  /* Script box */
+  .script-box { max-height: 50vh; font-size: 0.85em; padding: 12px; }
+
+  /* Scenario grid + flip cards */
+  .scenario-grid { grid-template-columns: 1fr; gap: 8px; }
+  .vocab-item { height: 130px; }
+  .vocab-item-front, .vocab-item-back { padding: 6px 10px; }
+  .vocab-item-front .en { font-size: 1em; }
+  .vocab-item-back .spell-row input { font-size: 16px; }
+  .vocab-item-back .spell-row button { min-height: 40px; min-width: 44px; }
+
+  /* Progress table: horizontal scroll */
+  .progress-table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; font-size: 0.78em; }
+  .progress-table th, .progress-table td { padding: 6px 8px; white-space: nowrap; }
+
+  /* Search box */
+  .search-box { font-size: 16px; padding: 10px 14px; width: 100%; }
+
+  /* Flashcard */
+  .flashcard { width: 100%; max-width: 300px; height: 160px; margin: 10px auto; }
+  .flashcard-inner { font-size: 1.1em; }
+
+  /* Note area */
+  .note-area { font-size: 16px; min-height: 100px; padding: 10px; }
+
+  /* Buttons */
+  .btn { padding: 8px 14px; font-size: 0.82em; min-height: 40px; }
+  .btn-sm { padding: 6px 10px; font-size: 0.72em; min-height: 34px; }
+
+  /* Inputs */
+  textarea, input[type="text"], input[type="search"] { font-size: 16px; }
+
+  /* Fish mascots */
+  .fish-left { left: 2px; top: 50px; }
+  .fish-right { right: 4px; top: 50px; }
+  .fish-mascot { font-size: 1.3em; }
+  .fish-bubble { font-size: 0.6em; }
+  .fish-cheer { top: 100px; font-size: 0.85em; padding: 8px 16px; }
+
+  /* Theme toggle */
+  .theme-toggle { top: 6px; right: 6px; width: 32px; height: 32px; font-size: 0.9em; }
+
+  /* Modals */
+  .modal-content { width: 95%; max-width: 95%; margin: 10% auto; padding: 16px; }
+
+  /* Tab content */
+  .tab-content { padding: 4px 0; }
+
+  /* Scenario vocab — handled by .scenario-grid */
+}
+
+/* ── Responsive: Small Phones (360-480px) ── */
+@media (max-width: 480px) {
+  html { font-size: 14px; }
+  body { padding: 2px; }
+  .main-container { padding: 6px 4px; }
+
+  .header h1 { font-size: 1.15em; }
+  .header p { font-size: 0.7em; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
+  .tab-btn { padding: 6px 9px; font-size: 0.7em; border-radius: 18px; min-height: 34px; }
+
+  .stats-bar { flex-wrap: wrap; gap: 4px; }
+  .stat-card { flex: 1 1 calc(33% - 4px); min-width: 60px; padding: 6px 4px; }
+  .stat-card .num { font-size: 1.1em; }
+  .stat-card .label { font-size: 0.65em; }
+
+  .card { padding: 10px 8px; border-radius: 10px; }
+
+  .year-btn { padding: 5px 8px; font-size: 0.72em; min-height: 32px; border-radius: 6px; }
+
+  .audio-player { padding: 8px; gap: 5px; }
+  .audio-player button { min-height: 36px; min-width: 36px; padding: 6px 10px; font-size: 0.8em; }
+
+  .q-options label, .q-options button { padding: 8px 10px; font-size: 0.8em; min-height: 38px; }
+
+  .script-box { max-height: 40vh; font-size: 0.8em; padding: 10px; }
+
+  .scenario-grid { grid-template-columns: 1fr; gap: 6px; }
+  .vocab-item { height: 120px; }
+  .vocab-item-front, .vocab-item-back { padding: 4px 8px; }
+  .vocab-item-front .en { font-size: 0.95em; }
+  .vocab-item-back .spell-row input { font-size: 16px; }
+  .vocab-item-back .spell-row button { min-height: 40px; min-width: 44px; font-size: 0.8em; }
+
+  .progress-table { font-size: 0.7em; }
+  .progress-table th, .progress-table td { padding: 4px 6px; }
+
+  .flashcard { max-width: 260px; height: 140px; }
+  .flashcard-inner { font-size: 1em; }
+
+  .btn { padding: 7px 12px; font-size: 0.78em; min-height: 38px; }
+
+  .fish-left { left: 0; top: 40px; }
+  .fish-right { right: 0; top: 40px; }
+  .fish-mascot { font-size: 1.1em; }
+  .fish-bubble { display: none; }
+
+  .theme-toggle { top: 4px; right: 4px; width: 28px; height: 28px; font-size: 0.8em; }
+}
+</style>
+</head>
+<body>
+
+<!-- Theme Toggle -->
+<button class="theme-toggle" id="themeToggle" title="切换亮色/暗色主题" onclick="toggleTheme()">🌙</button>
+
+<!-- Fish Mascots -->
+<div class="fish-left">
+  <span class="fish-mascot fish-nini" onclick="cheerFish('nini')" title="宁宁">
+    🐟
+    <span class="fish-bubbles">
+      <span class="fish-bubble">💭</span>
+      <span class="fish-bubble">💭</span>
+    </span>
+  </span>
+</div>
+<div class="fish-right">
+  <span class="fish-mascot fish-yuyu" onclick="cheerFish('yuyu')" title="鱼鱼">
+    🐠
+    <span class="fish-bubbles">
+      <span class="fish-bubble">💭</span>
+      <span class="fish-bubble">💭</span>
+    </span>
+  </span>
+</div>
+<div class="fish-cheer" id="fishCheer"></div>
+
+<div class="header">
+  <h1>🎵 宁鱼鱼的声音花园</h1>
+  <p>2016-2025 高考英语听力真题全收录 · 逐题精练 · 场景词汇 · 不再是"听天书"</p>
+</div>
+
+<div class="stats-bar" id="statsBar">
+  <div class="stat-card"><div class="num" id="yearsDone">0</div><div class="label">已练年份</div></div>
+  <div class="stat-card"><div class="num" id="avgScore">--</div><div class="label">平均正确率</div></div>
+  <div class="stat-card"><div class="num" id="totalCorrect">0</div><div class="label">累计正确题数</div></div>
+  <div class="stat-card"><div class="num" id="vocabLearned">0</div><div class="label">听力词汇</div></div>
+  <div class="stat-card"><div class="num" id="practiceDays">0</div><div class="label">练习天数</div></div>
+</div>
+
+<div class="tab-nav">
+  <button class="tab-btn active" data-tab="practice">🎧 真题训练</button>
+  <button class="tab-btn" data-tab="vocab">📖 场景词汇</button>
+  <button class="tab-btn" data-tab="tips">💡 听力技巧</button>
+  <button class="tab-btn" data-tab="progress">📊 学习记录</button>
+</div>
+
+<div class="main-container">
+
+<!-- ============ TAB: PRACTICE ============ -->
+<div class="tab-content active" id="tab-practice">
+  <div class="card">
+    <h2>选择年份开始练习</h2>
+    <div class="year-selector" id="yearSelector">
+      <!-- Generated by JS -->
+    </div>
+
+    <div id="practiceContent" style="display:none;">
+      <div class="audio-player" id="audioPlayer">
+        <span>🔊</span>
+        <audio id="audioEl" controls style="flex:1;">
+          <source id="audioSource" src="" type="audio/mpeg">
+          您的浏览器不支持音频播放。请检查文件：
+          <span id="audioPathDisplay"></span>
+        </audio>
+        <button class="btn btn-sm btn-warning" onclick="toggleSlowSpeed()" id="speedBtn">0.75x 慢速</button>
+      </div>
+
+      <div id="yearContent">
+        <p style="text-align:center;color:#999;">请先选择年份</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ TAB: SCENARIO VOCAB ============ -->
+<div class="tab-content" id="tab-vocab">
+  <div class="card">
+    <h2>📖 听力场景分类词汇</h2>
+    <p style="color:#666;margin-bottom:10px;">听力听不懂？80%是因为不认识场景关键词！熟练掌握以下场景词汇，听力提分最明显。</p>
+    <input type="text" class="search-box" placeholder="🔍 搜索听力词汇..." oninput="searchVocab(this.value)">
+    <div id="scenarioVocab"></div>
+  </div>
+  <div class="card">
+    <h2>🎴 闪卡模式（点击翻转）</h2>
+    <div class="flashcard" id="flashcard" onclick="flipCard()">
+      <div class="flashcard-inner">
+        <div class="flashcard-front" id="fcFront">reservation</div>
+        <div class="flashcard-back" id="fcBack">预订</div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:10px;">
+      <button class="btn btn-primary" onclick="nextCard()">下一张 →</button>
+      <button class="btn btn-success" onclick="markVocabLearned()">✅ 已学会</button>
+    </div>
+    <p style="text-align:center;color:#999;margin-top:5px;">卡片 <span id="cardIdx">1</span> / <span id="cardTotal">0</span></p>
+  </div>
+</div>
+
+<!-- ============ TAB: TIPS ============ -->
+<div class="tab-content" id="tab-tips">
+  <div class="card">
+    
+<h3>🎯 听力五大黄金策略</h3>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:15px;margin:10px 0">
+<div class="card"><strong>1. 预读选项，预测内容</strong><br>利用每段对话前的5秒读题时间，快速浏览选项，预测对话场景和可能的问题。</div>
+<div class="card"><strong>2. 听关键词，抓主旨</strong><br>不要试图听懂每个词！关注who/what/when/where/why/how，特别注意转折词(but/however)后的内容。</div>
+<div class="card"><strong>3. 速记技巧</strong><br>用符号和缩写快速记录：↑(increase) ↓(decrease) →(lead to) ∵(because) ∴(so) &amp;(and)</div>
+<div class="card"><strong>4. 注意同义替换</strong><br>正确选项往往是对原文的同义改写，而不是原词照搬！听到原词原样的选项很可能是陷阱。</div>
+<div class="card"><strong>5. 果断放弃，不纠结</strong><br>没听清就马上跳过，根据上下文和常识选一个最合理的答案，不要因为一题影响后面的节奏。</div>
+</div>
+
+<h3>📝 十大听力场景速记口诀</h3>
+<div style="background:#f0f8ff;padding:15px;border-radius:8px;margin:10px 0">
+<p><strong>校园场景：</strong>assignment, deadline, professor, semester, credit, scholarship, dorm</p>
+<p><strong>问路指路：</strong>go straight, turn left/right, cross the street, opposite, next to, block</p>
+<p><strong>餐厅点餐：</strong>menu, order, bill, tip, reservation, specialty, recommend</p>
+<p><strong>酒店住宿：</strong>check in/out, reservation, single/double room, luggage, front desk</p>
+<p><strong>购物场景：</strong>discount, size, price, refund, receipt, try on, on sale</p>
+<p><strong>看医生：</strong>appointment, symptom, headache/fever/cough, prescription, medicine</p>
+<p><strong>旅游出行：</strong>flight, departure, boarding, luggage, sightseeing, guide, accommodation</p>
+<p><strong>工作面试：</strong>position, experience, salary, interview, application, qualification</p>
+<p><strong>电话用语：</strong>This is...speaking, hold on, leave a message, call back, wrong number</p>
+<p><strong>天气交通：</strong>sunny/cloudy/rainy, traffic jam, delay, cancel, bus/train schedule</p>
+</div>
+
+<h3>⚠️ 常见听力陷阱</h3>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:15px;margin:10px 0">
+<div class="card"><strong>数字陷阱</strong><br>听到的数字不一定是答案！可能有加减计算或修正。如：first said $50, then &quot;actually it&apos;s $35&quot; — 答案应是35。</div>
+<div class="card"><strong>时间陷阱</strong><br>对话中提到多个时间点，注意区分：现在几点？什么时候做某事？如："Let's meet at 3, but I'll be there at 2:30"</div>
+<div class="card"><strong>否定陷阱</strong><br>注意否定词的发音：can't, don't, won't, hardly, barely。特别注意否定前缀：un-, dis-, im- 等。</div>
+<div class="card"><strong>转折陷阱</strong><br>but/however/actually/in fact 后面的内容才是答案关键！前面说的往往会被否定或修正。</div>
+<div class="card"><strong>人物混淆陷阱</strong><br>对话涉及多人时，注意区分谁说了什么、谁做了什么。男士做的？女士做的？他们都做了？</div>
+<div class="card"><strong>建议陷阱</strong><br>Why don't you..., How about..., I suggest..., You'd better... — 建议的内容往往是答案，但建议者不一定是执行者。</div>
+</div>
+
+  </div>
+</div>
+
+<!-- ============ TAB: PROGRESS ============ -->
+<div class="tab-content" id="tab-progress">
+  <div class="card">
+    <h2>📊 历年真题完成情况</h2>
+    <table class="progress-table" id="progressTable">
+      <thead>
+        <tr><th>年份</th><th>试卷</th><th>正确率</th><th>状态</th><th>评分</th><th>笔记</th></tr>
+      </thead>
+      <tbody id="progressBody"></tbody>
+    </table>
+  </div>
+  <div class="card">
+    <h2>📝 我的学习笔记</h2>
+    <textarea class="note-area" id="studyNotes" placeholder="写下今天的听力学习心得、遇到的生词、易错题..."></textarea>
+    <button class="btn btn-success" onclick="saveNotes()" style="margin-top:10px;">💾 保存笔记</button>
+    <button class="btn btn-primary" onclick="exportData()" style="margin-top:10px;">📤 导出学习数据</button>
+  </div>
+</div>
+
+</div><!-- main-container -->
+
+<!-- Modal for full script -->
+<div class="modal" id="scriptModal">
+  <div class="modal-content">
+    <span class="modal-close" onclick="closeModal()">&times;</span>
+    <h2>📜 听力原文</h2>
+    <div class="script-box show" id="modalScript" style="max-height:60vh;"></div>
+  </div>
+</div>
+
+<script>
+// ============ DATA ============
+const YEAR_DATA = {"2016": {"label": "2016 新课标Ⅱ/Ⅲ", "audio": "past papers/listening/2016年高考真题英语听力真题+mp3+听力原文---新课标2、3/2016年全国统一高考英语试卷听力音频（新课标Ⅱ、Ⅲ）.mp3", "answers": {"1": "B", "2": "C", "3": "A", "4": "C", "5": "B", "6": "A", "7": "C", "8": "A", "9": "B", "10": "C", "11": "B", "12": "A", "13": "C", "14": "A", "15": "C", "16": "B", "17": "A", "18": "C", "19": "A", "20": "B"}, "questions": "\n                    2016年全国统一高考英语试卷（新课标Ⅱ）\n                                  听力试题\n第一部分  听力（共两节，满分30分）\n    做题时，先将答案标在试卷上，录音结束后，你将有两分钟的时间将试卷上的答案转\n涂到答题卡上。\n第一节 （共5小题，每小题1.5分，满分7.5分）\n    听下面5段对话。每段对话后有一个小题，从题中所给的A、B、C三个选项中选出最佳\n答案。听完每段对话后，你都有10秒钟的时间来回答有关小题和阅读下一小题。每段对\n话仅读一遍。\n例: How much is the shirt?\nA. £ 19.15　　　B. £9.18　　　C. £9.15\n答案是C.\n1. What will Lucy do at 11:30 tomorrow?\nA. Go out for lunch.       B. See her dentist.       C. Visit a friend.\n2. What is the weather like now?\nA. It’s sunny.         B. It’s rainy.             C. It’s cloudy.\n3. Why does the man talk to Dr. Simpson?\nA. To make an apology.     B. To ask  for  help.        C.  To  discuss  his\nstudies.\n4. How will the woman get back from the railway station?\nA. By train.           B. By car.                 C. By bus.\n5. What does Jenny decide to do first?\nA. Look for a job.     B. Go on a trip.       C. Get an assistant.\n\n第二节（共15小题；每小题1.5分，满分22.5分）\n   听下面5段对话或独白。每段对话或独白后有几个小题，从题中所给的A、B、C三个选\n项中选出最佳选项。听每段对话或独白前，你将有时间阅读各个小题，每小题5秒钟；听\n完后，各小题将给出5秒钟的作答时间。每段对话或独白读两遍。\n\n听第6段材料，回答第6、7题。\n6. What time is it now?\nA. 1:45.            B. 2:10.               C. 2:15.\n7. What will the man do?\nA. Work on a project.    B.  See  Linda  in  the  library.    C.  Meet  with\nProfessor Smith.\n\n听第7段材料，回答第8至10题。\n8. What are the speakers talking about?\nA. Having guests this weekend.\nB. Going out for sightseeing.\nC. Moving into a new house.\n9. What is the relationship between the speakers?\nA. Neighbors.    B. Husband and wife.      C. Host and visitor.\n10. What will the man do tomorrow?\nA. Work in his garden.     B. Have a barbecue.         C. Do some shopping.\n\n听第8段材料，回答第11至13题。\n11. Where was the man born?\nA. In Philadelphia.        B. In Springfield.        C. In Kansas.\n12. What did the man like doing when he was a child?\nA. Drawing.            B. Traveling.          C. Reading.\n13. What inspires the man most in his work?\nA. Education.       B. Family love.         C. Nature.\n\n听第9段材料，回答第14至17题。\n14. Why is Dorothy going to Europe?\nA. To attend a training program.\nB. To carry out some research.\nC. To take a vacation.\n15. How long will Dorothy stay in Europe?\nA. A few days.      B. Two weeks.        C. Three months.\n16. What does Dorothy think of her apartment?\nA. It’s expensive.     B. It’s satisfactory.       C. It’s inconvenient.\n17. What does Bill offer to do for Dorothy?\nA. Recommend her apartment to Jim.\nB. Find a new apartment for her.\nC. Take care of her apartment.\n\n听第10段材料，回答第18至20题。\n18. What are the tourists advised to do when touring London?\nA. Take their tour schedule.\nB. Watch out for the traffic.\nC. Wear comfortable shoes.\n19. What will the tourists do in fifteen minutes?\nA. Meet the speaker.      B. Go to their rooms.      C. Change some money.\n20. Where probably is the speaker?\nA. In a park.       B. In a hotel.       C. In a shopping centre.\n\n\n\n\n                    2016年全国统一高考英语试卷（新课标Ⅱ）\n                             听力试题答案及原文\n\n【参考答案】\n1-5 BCACB     6-10 ACABC    11-15 BACAC     16-20 BACAB\n\n", "scripts": "：\n第一节 （共5小题，每小题1.5分，满分7.5分）\n    听下面5段对话。每段对话后有一个小题，从题中所给的A、B、C三个选项中选出最佳\n答案。听完每段对话后，你都有10秒钟的时间来回答有关小题和阅读下一小题。每段对\n话仅读一遍。\nText 1\nM: Lucy, would you like to have lunch with me tomorrow?\nW: Oh, I’d really love to, but I have an  appointment  with  my  dentist  at\n11:30. Thanks for inviting me.\n\nText 2\nW: Peter, how is the weather now? Is it still raining?\nM: No, but there’s still  lots  of  clouds.  The  weatherman  said  the  sun\nwouldn’t come out until next week.\n\nText 3\nM: I’m sorry I was late for class today, Dr. Simpson.\nW: Well, I’ll let it go this time. But you saw it disturbed the rest of  the\nclass.\nM: Yes, I realized that. I won’t let it happen again.\n\nText 4\nW: Hi, Mike. Listen, I’m coming back this afternoon, and  I’ll  take  a  bus\nfrom the railway station. So, you don’t need to come and pick me up.\nM: OK, take care, and see you soon.\n\nText 5\nM: Jenny, there’s an opening for an assistant manager in  our  company.  You\nshould give it a try.\nW: Thank you George, but  I’ve  decided  to  travel  a  bit  before  finding\nanother job.\n\n第二节（共15小题；每小题1.5分，满分22.5分）\n   听下面5段对话或独白。每段对话或独白后有几个小题，从题中所给的A、B、C三个选\n项中选出最佳选项。听每段对话或独白前，你将有时间阅读各个小题，每小题5秒钟；听\n完后，各小题将给出5秒钟的作答时间。每段对话或独白读两遍。\nText 6\nM: By the way, do you know what time it is?\nW: Well, it’s a quarter to two.\nM: Oh, I’ve got to go.\nW: See Linda in the library?\nM: No. Actually I’m going to meet with Professor Smith at ten past two.  You\nmay continue our project discussion with Michael.\nW: All right.\n\nText 7\nW: Harry, guess what? I’ve just received  an  email  from  Pamela.  She  and\nPeter are coming down to see us this weekend.\nM: Oh, that’s good news! We haven’t seen them for ages.\nW: Yeah. The last time we met them was at our wedding three years ago.\nM: Did Pamela mention how long they’ll stay?\nW: About one week.\nM: Great! I can’t wait to show them around our new house.\nW: Me too. We haven’t had any guests since we moved in here. If the  weather\nis fine, we can have a barbecue in the garden.\nM: Good idea. I’ll go to the market tomorrow to buy  all  the  things  we’ll\nneed.\n\nText 8\nW: Hello, everyone. Welcome to our program. Today, we are fortunate to  have\na special guest with us. Some of you may have heard of him before.  He’s  an\nartist. His works have received many prizes and have been shown in over  one\nhundred  exhibitions  across  the  country  —   Los   Angeles,   New   York,\nPhiladelphia, to name just a few. His name is Chris Cucksy. So  Chris,  tell\nus a bit about yourself.\nM: Well, I was born in Springfield, Missouri,  and  grew  up  in  Kansas.  I\ndidn’t come from a family with wealth or position, but I did manage  to  get\na master’s degree in fine arts.\nW: When did you first start to make art? And what was the turning  point  in\nyour life that made you an artist?\nM: I always liked drawing as early as I can remember, so right from then,  I\nknew what I was going to be: an artist.\nW: What is it that always inspires you to create?\nM: Nature is the biggest inspiration.  I’m  always  inspired  by  things  of\nbeauty and harmony.\n\nText 9\nM: You must be pretty excited about your trip to Europe, Dorothy.  When  are\nyou leaving?\nW: In just two weeks, and I am excited. I’ve been looking  forward  to  this\ntraining program for a long time. But there are still a few  things  I  need\nto do before I go.\nM: Like what?\nW: Like renewing my passport and figuring out what to do with  my  apartment\nwhile I’m gone.\nM: You are not going to give it up, are you?\nW: No way! I’ll never find another apartment like  it  around  here.  But  I\ndon’t like the idea of paying three months for an empty  apartment,  either.\nSo, I’m looking for someone to take it while I’m away.\nM: Um, let me think. Oh, I know just a person. An  old  colleague  of  mine,\nJim Thomas. He is coming here to do some research this summer, from June  to\nAugust.\nW: Well, that’s exactly when I’ll be away!\nM: Tell you what: I’ll be  calling  Jim  late  this  week  anyway,  so  I’ll\nmention it to him.\nW: Well, thanks, Bill.\n\nText 10\nW: I hope I’ve given you a clear  idea  of  the  schedule  for  your  London\nweekend. And, before I finish, let  me  just  give  you  some  advice  which\nshould make your stay more enjoyable. Firstly, please do remember to put  on\nsome comfortable shoes. London is a big place, and whatever you  do,  you’ll\nfind yourself doing quite a  lot  of  walking.  So,  comfortable  shoes  are\nreally necessary. And secondly, let me ask you to  please  look  after  your\nmoney. Keep it safe at all times, and then you will not have any  unpleasant\naccident, which could ruin your whole weekend. You’ll find a  copy  of  your\nweekend’s schedule in your room. Take a look at it,  and  make  sure  you’re\nclear about everything. Well, that’s all from me for now. Go and leave  your\nluggage in your rooms. I’ll be seeing you here  again  in  fifteen  minutes.\nGoodbye for now!\n\n\n\n\n\n\n\n\n\n\n                                  答案解析\n1.   答案为B。此题为简单的事实细节题。根据材料中女士的话“but   I   have   an\nappointment            with       "}, "2017": {"label": "2017 新课标Ⅱ/Ⅲ", "audio": "past papers/listening/2017年高考真题英语听力真题+mp3+听力原文---新课标2、3/2017年全国统一高考英语试卷听力音频（新课标Ⅱ、Ⅲ）.mp3", "answers": {"1": "B", "2": "C", "3": "A", "4": "C", "5": "B", "6": "A", "7": "C", "8": "C", "9": "B", "10": "A", "11": "A", "12": "B", "13": "C", "14": "A", "15": "B", "16": "B", "17": "A", "18": "C", "19": "A", "20": "B"}, "questions": "\n                 2017年全国统一高考英语试卷（新课标Ⅱ、III）\n                                  听力试题\n第一部分  听力（共两节，满分30分）\n    做题时，先将答案标在试卷上，录音结束后，你将有两分钟的时间将试卷上的答案转\n涂到答题卡上。\n第一节 （共5小题，每小题1.5分，满分7.5分）\n    听下面5段对话。每段对话后有一个小题，从题中所给的A、B、C三个选项中选出最佳\n答案。听完每段对话后，你都有10秒钟的时间来回答有关小题和阅读下一小题。每段对\n话仅读一遍。\n例: How much is the shirt?\nA. £ 19.15　　　B. £9.18　　　C. £9.15\n答案是C.\n1. What will the woman do this afternoon?\nA. Do some exercise.　　 B. Go shopping.      C. Wash her clothes.\n2. Why does the woman call the man?\nA. To cancel a flight.     B. To make  an  apology.      C.  To  put  off  a\nmeeting.\n3. How much more does David need for the car?\nA. $5,000.          B. $20,000.        C. $25,000.\n4. What is Jane doing?\nA. Planning a tour.     B. Calling her father.     C. Asking for leave.\n5. How does the man feel?\nA. Tied.          B. Dizzy.          C. Thirsty.\n\n第二节（共15小题；每小题1.5分，满分22.5分）\n   听下面5段对话或独白。每段对话或独白后有几个小题，从题中所给的A、B、C三个选\n项中选出最佳选项。听每段对话或独白前，你将有时间阅读各个小题，每小题5秒钟；听\n完后，各小题将给出5秒钟的作答时间。每段对话或独白读两遍。\n听第6段材料，回答第6、7题。\n6. What does Jack want to do?\nA. Watch TV.       B. Play outside.       C. Go to the zoo.\n7. Where does the conversation probably take place?\nA. At home.        B. In a cinema.        C. In a supermarket.\n\n听第7段材料，回答第8至10题。\n8. What does Richard do?\nA. He’s a newsman.      B. He’s a manager.      C. He’s a researcher.\n9. Where is Richard going next week?\nA. Birmingham.       B. Mexico City.       C. Shanghai.\n10. What will the speakers do tomorrow?\nA. Eat out together.      B.  Visit  a  university.       C.  See  Professor\nHayes.\n\n听第8段材料，回答第11至13题。\n11. What is the probable relationship between the speakers?\nA. School friends.    B. Teacher and student.    C.  Librarian  and  library\nuser.\n12. Why does Jim suggest Mary buy the book?\nA. It’s sold at a discount price.\nB. It’s important for her study.\nC. It’s written by Professor Lee.\n13. What will Jim do for Mary?\nA. Share his book with her.\nB. Lend her some money.\nC. Ask Henry for help.\n\n听第9段材料，回答第14至16题。\n14. Where does Stella live?\nA. In Memphis.         B. In Boston.          C. In St Louis.\n15. What would Peter and his family like to do on Beale Street?\nA. Visit a museum.         B. Listen to music.          C. Have dinner.\n16. What kind of hotel does Peter prefer?\nA. A big one.             B. A quite one.          C. A modern one.\n\n听第10段材料，回答第17至20题。\n17. How many lab sessions will the students have every week?\nA. One.                B. Two.                C. Three.\n18. What are the students allowed to wear in the lab?\nA. Long scarves.           B. Loose clothes.         C. Tennis shoes.\n19. Why should the students avoid mixing liquid with paper?\nA. It may cause a fire.      B. It may create waste.     C. It  may  produce\npollution.\n20. What does the speaker mainly talk about?\nA. Grades the students will receive.\nB. Rules the students should follow.\nC. Experiments the students will do.\n                 2017年全国统一高考英语试卷（新课标Ⅱ、III）\n                             听力试题答案及原文\n\n【参考答案】\n1. B    2. C    3. A    4. C    5. B\n6. A    7. C    8", "scripts": "\n第一节 （共5小题，每小题1.5分，满分7.5分）\n    听下面5段对话。每段对话后有一个小题，从题中所给的A、B、C三个选项中选出最佳\n答案。听完每段对话后，你都有10秒钟的时间来回答有关小题和阅读下一小题。每段对\n话仅读一遍。\nText 1\nM: Let’s go for a nice walk into the country this afternoon.\nW: I certainly could enjoy the exercise, but I’ve agreed to  go  with  Alice\nto buy some clothes.\n\n\nText 2\nW: Hello, Mr. Smith. I’m afraid Dr. Brown won’t be able to  see  you  today.\nHe’s still waiting for a flight out of New York. He said he would  meet  you\ntomorrow afternoon. Is it OK?\nM: Sounds good. Thank you for calling.\n\n\n Text 3\nW: David, have you saved enough for the car?\nM: I have $20,000 now, and the car cost $25,000. My parents said they  would\nlike to help, but I don’t want to use their money.\n\n\nText 4\nW: Dr. Block, I need to take a few days off  because  my  father  is  coming\nover to visit. And I need to show him around the city.\nM: OK, Jane. But be sure to come back to work next week.\n\nText 5\nM: Amy, my head is spinning. It must be a touch of the sun.\nW: You’d better lie back still for a while. Take is easy  for  the  rest  of\nthe day and stay in the shade. It’s too hot today.\n\n第二节（共15小题；每小题1.5分，满分22.5分）\n   听下面5段对话或独白。每段对话或独白后有几个小题，从题中所给的A、B、C三个选\n项中选出最佳选项。听每段对话或独白前，你将有时间阅读各个小题，每小题5秒钟；听\n完后，各小题将给出5秒钟的作答时间。每段对话或独白读两遍。\nText 6\nM: Mum, this is going to take forever. Animal World will  be  on  in  twenty\nminutes. It’s my favorite program. You know I can’t miss it.\nW: I know, honey, but we have to wait in line to pay  for  these  things  we\nneed.\nM: You promise we’d be home in time.\nW: Be a little patient, Jack. We’ll get out of here soon.\n\nText 7\nM: Hi, Samantha, do you have a minute?\nW: Hi, Richard, come in, please.\nM: I’ve been trying to get hold of you all afternoon.\nW: I was at the weekly managers’ meeting. How were things?\nM: Oh, splendid. I have some news?\nW: Good news?\nM: Wonderful news, to me, anyway. I’ve been offered a job  for  three  years\nas an assistant to Professor Hayes from  Birmingham  University.  I’ll  join\nhim in Mexico City. What do you think about that?\nW: Wonderful, Richard. Just what you’ve always  wanted,  isn’t  it?  Doesn’t\nmean\nthat you’ll leave soon?\nM: Next week. But before I go, I’d like to invite you out for  dinner.  Just\nthank you for all the help you gave me during my three months research  work\nhere. Would tomorrow evening be a good time  for  you?  We  can  go  to  the\nShanghai Restaurant in Chinatown.\nW: Fine with me.\n\nText 8\nM: What’s that book you just picked up, Mary?\nW: The one Professor Lee uses in his course.\nM: Oh, I see. You’d better have it if you want to pass that course.\nW: But it costs $30. I simply can’t afford it.\nM: Did you check the used-book section here? Maybe they have it.\nW: No, they don’t. I asked.\nM: Why don’t you get it from the library?\nW: I’ve been trying for a month and it’s  always  out.  There  are  over  50\nstudents in the course, and every single one wants the book.\nM: Listen, you know my roommate, Henry, don’t you? He took the  same  course\nlast year. And I remember he owes a copy. I can borrow it from him for  you.\n\nW: Oh, that would be great. Thank you, Jim.\n\nText 9\nW: Hello.\nM: Hello, Stella. This is Peter.\nW: Hi, Peter. Fancy hearing your voice. How are you?\nM: Couldn’t be better. I’m planning a trip to Memphis with  my  family  this\nsummer.\nW: Great, I’d love to host you here. When are you coming?\nM: We’ll leave Boston on June 20th. Stay in St Louis Missouri  for  a  week,\nand then\nfly to your city. We’d probably stay for five days with you and  come  back.\nFor it’s a two-week vacation.\nW: Is there anything special you’d like to do here?\nM: We’d love to explore Beale Street, the official home of the blues,  where\nwe’d listen to live music. We’d also like to visit  Graceland,  the  popular\nmuseum in memory of Elvis Presley. But above all,  we  want  to  spend  some\ntime with you and your family.\nW: Of course, it’s been ages since we met last time.  Let’s  have  a  dinner\nparty in my garden.\nM: Lovely. Oh, could you find for  us  a  hotel  near  where  you  live?  It\ndoesn’t have to\nbe big, but I can’t stand noisy at bedtime.\nW: Sure.\nM: Thank you. See you soon.\n\nText 10\n    Hello everyone. My name is John. I’m the teaching assistant for this lab\nsession. Let me explain a little about it. As you  may  know  already,  it’s\nrequired meeting once a week. I expect you to do  all  the  experiments  and\nkeep the results in your lab notebook. I’ll collect the notebooks every  two\nweeks. You’ll  be  graded  on  lab  notebooks  and  quizzes.  But  the  most\nimportant information I want to give you now is about safety. First of  all,\nyou must wear shoes that cover your feet in the lab. Tennis  shoes  are  OK;\nalso don’t wear loose clothes, long scarves, big necklaces or  loose  belts.\nThey get cut in something or fall into  liquid.  Another  thing  to  do  for\nsafety is cleaning up.\n    Be sure to put the waste in the correct containers. We can’t mix  liquid\nwith paper. This is extremely important. I don’t  want  any  fires  in  this\nroom. You are respo"}, "2018": {"label": "2018 新课标Ⅱ/Ⅲ", "audio": "past papers/listening/2018年高考真题英语听力真题+mp3+听力原文---新课标2、3/2018年全国统一高考英语试卷听力音频（新课标Ⅱ、Ⅲ）.mp3", "answers": {"1": "C", "2": "A", "3": "B", "4": "A", "5": "C", "6": "B", "7": "B", "8": "A", "9": "C", "10": "C", "11": "A", "12": "B", "13": "A", "14": "B", "15": "C", "16": "A", "17": "B", "18": "C", "19": "C", "20": "A"}, "questions": "2018年全国统一高考英语试卷（新课标Ⅱ、III）\n听力试题 \n第一部分 听力（共两节，满分30分）\n做题时，先将答案标在试卷上。录音内容结束后，你将有两分钟的时间将试卷上的答案转涂到答题卡上。\n第一节（共5小题；每小题1.5分，满分7.5分）\n听下面5段对话。每段对话后有一个小题，从题中所给的A、B、C三个选项中选出最佳选项。听完每段对话后，你都有10秒钟的时间来回答有关小题和阅读下一小题。每段对话仅读一遍。\n例: How much is the shirt?\nA. ￡19.15.\t       B. ￡9.18.        C. ￡9.15.\n答案是C.\n1. What does John find difficult in learning German?\nA. Pronunciation.      B. Vocabulary.      C. Grammar.\n2. What is the probable relationship between the speakers？\nA. Colleagues.      B. Brother and sister.      C. Teacher and student.\n3. Where does the conversation probably take place？\nA. In a bank.      B. At a ticket coffee.      C. On a train.\n4. What are the speakers talking about？\nA. A restaurant.      B. A street.      C. A dish.\n5. How does the woman think of her interview?\nA. It was tough.      B. It was interesting.      C. It was successful.\n　\n第二节（共15小题；每小题1.5分，满分22.5分）\n听下面5段对话或独白。每段对话或独白后有几个小题，从题中所给的A、B、C三个选项中选出最佳选项。听每段对话或独白前，你将有时间阅读各个小题，每小题5秒钟；听完后，各小题将给出5秒钟的作答时间。每段对话或独白读两遍。\n听第6段材料，回答第6、7题。\n6. When will Judy go to a party?\nA. On Monday.      B. On Tuesday.      C. On Wednesday.\n7. What will Max do next?\nA. Fly a kite.      B. Read a magazine.      C. Do his homework.\n\n听第7段材料，回答第8、9题。\n8. What does the man suggest doing at first?\nA. Going to a concert.     B. Watching a movie.     C. Playing a computer game.\n9. What do the speakers decide to do?\nA. Visit Mike.      B. Go boating.      C. Talk a walk.\n\n听第8段材料，回答第10至12题。\n10. Which color do cats see better than humans?\nA. Red.      B. Green.      C. Blue.\n11. Why do cats bring dead birds home?\nA. To eat them in a safe place.\nB. To show off their hunting skills.\nC. To make their owners happy.\n12. How does the man sound at the end of the conversation?\nA. Grateful.      B. Humorous.      C. Curious.\n\n听第9段材料，回答第13至16题。\n13. Who is Macy?\nA. Ed’s mother.      B. Ed’s teacher.      C. Ed’s friend.\n14. How does Ed usually go to kindergarten?\nA. By car.      B. On foot.      C. By bus.\n15. What does Ed enjoy doing at the kindergarten?\nA. Telling stories.      B. Singing songs.      C. Playing with others.\n16. What do the teachers say about Ed?\nA. He’s clever.      B. He’s quiet.      C. He’s brave.\n听第10段材料，回答第17至20题。\n17. At what age did Emily start learning ballet?\nA. Five.      B. Six.      C. Nine.\n18. Why did Emily move to Toronto?\nA. To work for a dance school.\nB. To perform at a dance teacher.\nC. To learn contemporary dance.\n19. Why did Emily quit dancing?\nA. She was too old to dance.\nB. She failed to get a scholarship.\nC. She lost interest in it.\n20. How does Emily feel about stopping training?\nA. She’s pleased.     B. She’s regretful.     C. She’s upset.\n　\n\n2018年全国统一高考英语试卷（新课标Ⅱ、III）\n听力试题答案及原文\n\n【参考答案】\n1-5 CABAC      6-10 BBACC     11-15 ABABC      16-20 ABCCA\n\n", "scripts": "：\n第一节（共5小题；每小题1.5分，满分7.5分）\n听下面5段对话。每段对话后有一个小题，从题中所给的A、B、C三个选项中选出最佳选项。听完每段对话后，你都有10秒钟的时间来回答有关小题和阅读下一小题。每段对话仅读一遍。\nText 1\nW: So, how is your German class going, John? \nM: Well, not bad. The pronunciation is fine with me, and its vocabulary is similar to English. But I’m finding the grammar awful. \nW: Well, it takes a while to get it right. \n\nText 2\nW: I hope you can come to the party on Saturday. \nM: I didn’t know I was invited. \nW: Sure you are. Everyone in our office is invited. \n\nText 3\nW: May I help you? \nM: Yes. When is the next train to London? \nW: Oh, let me check. It leaves in twenty minutes. \nM: One ticket, please. \n\nText 4\nW: Charlie, do you know a restaurant called Bravo?\nM: Bravo...I know the name. But I’m not sure where it is.\nW: It’s on George Street. The food there is excellent.\n\nText 5\nW: Brian, I just had an interview. They said they would make a decision soon.\nM: What are your chances of getting the job?\nW: Quite good. I think the interview went very well. \n\n第二节（共15小题；每小题1.5分，满分22.5分）\n听下面5段对话或独白。每段对话或独白后有几个小题，从题中所给的A、B、C三个选项中选出最佳选项。听每段对话或独白前，你将有时间阅读各个小题，每小题5秒钟；听完后，各小题将给出5秒钟的作答时间。每段对话或独白读两遍。\nText 6\nM: Let’s go kite flying, Judy. It’s such a lovely day.\nW: Okay, but let me finish my chemistry homework first. Would you mind waiting for half an hour, Max? There are a few sports magazines on the table.\nM: Isn’t the chemistry homework due next Wednesday?\nW: Yeah, but I have a full day of classes on Monday and a birthday party to attend on Tuesday.\nM: All right, then. You go ahead, and I’ll catch up on some sports news while waiting.\n\nText 7\nW: We’ve been on the computer all the time lately. Why don’t we do something different Sunday afternoon?\nM: Well, we could go to a concert.\nW: But I don’t think we can get the tickets this late.\nM: Then what about playing a computer game? There’s a really cool new one we could download.\nW: Hmm, I don’t know. I feel like I need to do some exercise. We could probably just walk by the lake, and I’ll ask Mike to join us.\nW: That sounds like fun. Let’s do it!\n\nText 8\nW: Welcome to our program, Dr Peterson. Let’s see what questions we’ve got for you today. Here’s one: Can cats see color?\nM: Sort of. In the wild, many cats hunt at night because their eyes are designed for low light. Your cat can’t see bright colors such as red and green. But it picks up more shades of blue, yellow, and gray than humans do.\nW: And why do cats give dead birds to their owners?\nM: When your cat drops a dead bird at your feet, she isn’t bringing you a present. Most cats just drag food home because it’s a safe place to eat. A cat’s mom also brings home things to her children to help them practice hunting. So, a female cat without children may bring these “treats” to her owner instead. You may not like them, but at least you don’t have to write her a thank-you note. \n\nText 9\nW: How is little Ed doing at the kindergarten, Jack?\nM: Oh, he’s doing fairly well. It’s been three weeks since he first started going, so Macy and I are pretty used to it now. You should have seen Macy cry when Ed was about to set off on the first day, though.\nW: I think that’s a normal reaction for mothers. You live quite close to the kindergarten, don’t you? How does he get there?\nM: Macy walks there with him every morning unless the weather is bad. When it rains, they’ll drive.\nW: And is Ed enjoying kindergarten?\nM: Yeah, he loves to have other kids to play with. He keeps telling us things they do together.\nW: What do the teachers at the kindergarten say about him?\nM: They said he’s bright, and that he’s starting to learn how to tell time. Isn’t that fantastic?\nW: That is fantastic. It sounds like everything goes well.\n\nText 10 \nMy name is Emily. I had been a dancer for quite a long time. I started studying ballet when I was six years old. By the time I was nine, I was dancing five days a week. When I was eighteen, I decided that I really preferred contemporary dance and that I wanted to do it professionally. So I applied successfully for the training program at the school of Toronto Dance Theatre, and moved to Toronto to attend the program. That was the period of time I enjoyed most in Toronto. I graduated on scholarship and danced professionally for ten years. But after all, those years, I found that dance was gradually becoming something that felt like more of a burden than a joy. I found myself increasingly unwilling to drag myself to dance performances, so I quit. I do miss dance, often. But it makes me happy think that I’ll never have to go to another training session again."}, "2019": {"label": "2019 新课标Ⅱ/Ⅲ", "audio": "past papers/listening/2019年高考真题英语听力真题+mp3+听力原文---新课标2、3/2019年高考全国卷Ⅱ、Ⅲ英语听力录音.mp3", "answers": {"1": "B", "2": "C", "3": "B", "4": "A", "5": "C", "6": "C", "7": "A", "8": "B", "9": "A", "10": "C", "11": "B", "12": "A", "13": "C", "14": "C", "15": "B", "16": "A", "17": "C", "18": "A", "19": "B", "20": "A"}, "questions": "\n绝密★启用前\n              2019年普通高等学校招生全国统一考试（全国卷Ⅱ、Ⅲ）\n                                   英   语\n第一部分  听力（共两节，满分30分）\n   做题时，先将答案标在试卷上。录音内容结束后，你将有两分钟的时间将试卷上的答\n案转涂到答题卡上。\n\n第一节 （共5小题；每小题1.5分，满分7.5分）\n   听下面5段对话。每段对话后有一个小题，从题中所给的A、B、C三个选项中选出最佳\n选项。听完每段对话后，你都有10秒钟的时间来回答有关小题和阅读下一小题。每段对\n话仅读一遍。\n\n例：How much is the shirt?\n   A. £19.15.       B. £9.18.    C. £9.15.\n答案是C。\n1. Where does the conversation probably take place?\n  A. In  a  library.                B.  In  a  bookstore.         C.  In  a\nclassroom.\n2. How does the woman feel now?\n  A. Relaxed.                 B. Excited.            C. Tired.\n3. How much will the man pay?\n  A. $20.                 B. $80.                C. $100.\n4. What does the man tell Jane to do?\n  A. Postpone his appointment.      B. Meet Mr. Douglas.      C. Return  at\n3 o’clock.\n5. Why would David quit his job?\n  A. To go back to school.       B. To start his  own  firm.         C.  To\nwork for his friend.\n第二节（共15小题；每小题1.5分，满分22.5分）\n   听下面5段对话或独白。每段对话或独白后有几个小题，从题中所给的A、B、C三个选\n项中选出最佳选项。听每段对话或独白前，你将有时间阅读各个小题，每小题5秒钟；听\n完后，各小题将给出5秒钟的作答时间。每段对话或独白读两遍。\n听第6段材料，回答第6、7题。\n6. What does the man want the woman to do?\n  A. Check the cupboard.       B.  Clean  the  balcony.         C.  Buy  an\numbrella.\n7. What is the probable relationship between the speakers?\n  A. Husband and wife.    B. Employer and employee.     C.  Shop  assistant\nand customer.\n听第7段材料，回答第8至10题。\n8. Where did the woman go at the weekend?\n  A. The city centre.         B. The forest park.             C. The  man’s\nhome.\n9. How did the man spend his weekend?\n  A. Packing for a move.      B. Going out with Jenny.      C. Looking for a\nnew house.\n10. What will the woman do for the man?\n   A. Take Henry to hospital.    B. Stay with his kid.  \nC. Look after his pet.\n听第8段材料，回答第11至13题。\n11. What is Mr. Stone doing now?\n     A. Eating lunch.            B. Having a meeting.    \nC. Writing a diary.\n12. Why does the man want to see Mr. Stone?\n     A. To discuss a program.    B. To make a travel plan.    \nC. To ask for sick leave.\n13. When will the man meet Mr. Stone this afternoon?\n     A. At 3:00.                 B. At 3:30.                   C. At 3:45.\n听第9段材料，回答第14至16题。\n14. What are the speakers talking about?\n  A. A company.           B. An interview.              C. A job offer.\n15. Who is Monica Stansfield?\n  A. A junior specialist.        B. A department manager.      C.  A  sales\nassistant.\n16. When will the man hear from the woman?\n  A. On Tuesday.          B. On Wednesday.           C. On Thursday.\n听第10段材料，回答第17至20题。\n17. What did John enjoy doing in his childhood?\n  A. Touring France.           B.  Playing  outdoors.          C.  Painting\npictures.\n18. What did John do after he moved to the US?\n  A. He did business.         B. He studied biology.          C. He  worked\non a farm.\n19. Why did John go hunting?\n  A. For food.                B. For pleasure.             C. For money.\n20. What is the subject of John’s works?\n  A. American birds.          B. Natural scenery.          C. Family", "scripts": "\nText 1\nW: Excuse me, how can I find the book called The Class of 1998?\nM: Oh, I’m afraid it was sold out.\nW: It’s all right. Thank you!\nText 2\nM: How did your dancing lesson go today?\nW: Exciting! But it was hard work. I really need a rest now.\nM: Yeah, I can see that. Go and get relaxed.\nText 3\nM: How much is that in total?\nW: $100. But if you have a membership card, I can give you a 20% discount.\nM: Great, this is my membership card.\nText 4\nM: Jane, I’m going out for a while.\nW: But you have an appointment with Mr. Douglas at 3 o'clock.\nM: Well, please make it another day.\nText 5\nW: David said he would quit his job at our school.\nM: Really? Why would he do that?\nW: His friend started a firm in London. She wanted David to help her.\nText 6\nW: I’m going out for shopping. Do you need anything?\nM; Oh. yeah. I can’t find my umbrella. Can you buy one?\nW: Shouldn’t it be in the cupboard?\nM: I just checked. It wasn’t there.\nW: Impossible. That was where I usually put it. Did you check the balcony?\nM: Yes. of course, couldn’t find it. Well, just get a new one then.\n \nText 7\nM: Hi. Lucy. How was your weekend?\nW: Great! You know, we went mountain climbing in the forest  park.  The  air\nwas so different from the city, cool and fresh.\nM: Sounds great!\nW: Yeah, there wasn’t a cloud in the sky and we could  see  for  miles  from\nthe top. What about  you? What did you do?\nM: Busy packing.\nW: Oh, yes. of course! I forgot you and Jenny are moving into a  new  house.\nIt’s on Wednesday, isn’t it?\nM: Yeah, two days after. I didn't realize there are so many things to do.\nW: Can I help out with anything?\nM: Um, it’d be nice if you could take care of Henry for a couple of days.\nW: Henry?\nM: Yes, my dog.\nW: Oh, sure, no problem. You just focus on the move.\nText 8\nM: Hello, can I speak to Mr. Stone, please?\nW: Hello, but I’m afraid Mr. Stone is in a meeting until  lunchtime.  Can  I\ntake a message?\nM: Well, yes. I’d like to make an appointment  to  see  him.  It’s  Harrison\nWhite here.\nW: Just  a  second,  Mr.  White.  I’ll  look  in  the  diary.  So...  when’s\nconvenient for you?\nM: Sometime today, possible. I hear he’ll be away tomorrow.\nW: Yes, that’s right. He’ll be on a business trip for a week.\nM: I need to talk about my new program  with  him  before  he  leaves.  It’s\nurgent. So would this afternoon be OK?\nW: Let me see... OK. Mr. Stone is free this afternoon after 3:00.\nM: Well, 3:00 is a bit difficult. But I could make it after 3:30.\nW: So... shall we say a quarter  to  four  this  afternoon  in  Mr.  Stone’s\noffice?\nM: That’s great. Thanks.\nText 9\nW: Hello?\nM: Hi, Cindy. This is Jake Lee at Fix-it Corporation. How are you today?\nW: Oh, hi Jake. I’m fine. How are you?\nM: Good. The reason I’m calling is that we’d like to offer you the  position\nyou were interviewed for last Thursday.\nW: Oh, that’s great! I was really impressed with Fix-it.\nM: I’m glad to hear it. And we’ll prepare to offer you a starting salary  of\n$55,000.\nW: I see. And... vacation time?\nM: Oh, you get one day per month in your first year. That  is,  you’ll  have\n12 days in your first year, and then increase if you stay  longer  with  the\ncompany.\nW: What would be my job title?\nM: You’d  be  a  junior  specialist.  And  you’d  be  working  under  Monica\nStansfield, the department manager.\nW: OK... Is the salary negotiable at all?\nM: Well, this is typical for new staff.\nW: I see...\nM: Why don’t you think about  it?  I’ll  need  to  hear  back  from  you  by\nWednesday. Will that work?\nW: Sure, no problem. I’ll let you know Tuesday afternoon.\nText 10\nM: Hello, everybody. Today I’d like to share with you something  about  John\nAudubon. John was born on April 26th. 1785. He spent much of  his  childhood\nin France where he spent many hours each day outdoors painting pictures.  At\nthe age of 18, he moved to the United States.  Well,  actually.  John  began\nhis life in the US as a businessman. However, instead of taking care of  his\nbusiness, John was often off exploring nature.  At  first,  John  spent  his\ntime hunting for fun. Then he  found  that  the  animals  around  were  very\nbeautiful, and he particularly enjoyed observing the birds he saw. He  began\nstudying them, trying  to  learn  the  differences  between  the  birds  and\nnoticing their different behaviors.\n   Therefore, he painted  the  birds  he  observed  a  lot.  In  1819,  John\nrealized that he didn’t have enough money to pay  his  bills.  He  was  very\nupset that he couldn’t earn enough money to support his family. So he  spent\ntime improving his painting skills and  began  to  sell  his  paintings.  He\ndiscovered that he could earn some money while  doing  something  he  really\nenjoyed. We are lucky now to have so many paintings  of  American  birds  by\nJohn Audubon.\n \n\n"}, "2020": {"label": "2020 全国卷Ⅲ", "audio": "past papers/listening/2020年高考真题——英语听力（全国卷Ⅲ）/2020年高考真题——英语听力（全国卷Ⅲ）.mp3", "answers": {"1": "C", "2": "B", "3": "A", "4": "C", "5": "A", "6": "B", "7": "B", "8": "C", "9": "C", "10": "B", "11": "A", "12": "C", "13": "C", "14": "A", "15": "B", "16": "A", "17": "B", "18": "C", "19": "B", "20": "A"}, "questions": "2020年全国2卷&3卷&江苏卷\n答案  1.C  2.B  3.A  4.C  5.A  6.B  7.B  8.C  9.C  10.B  11.A  12.C  13.C  14.A  15.B  16.A  17. B  18. C  19. B  20. A\n录音原文\nText 1 \nM: Excuse me. How can I get to the nearest supermarket?\nW: It’s on Pennings Road. Go past the post office and it’s on your left.\nText 2 \nW: I don’t know how you did it, Carl! But the TV works beautifully now. You should get a medal for your work.\nM: It wasn’t hard at all. It was much easier than preparing for the test.\nText 3 \nM: Good morning, madam. What can I do for you?\nW: Well, the sleeves of this jacket are too long. Can you make them shorter?\nM: Let me take a look. Okay, I can do it for 20 dollars.\nText 4 \nW: Excuse me. Could you tell me what time Flight AF35 gets in?\nM: Well, it’s due in at 6:20 p.m. But the announcement said just now that it has a 30-minute delay because of the bad weather.\nText 5 \nM: Ms. Miller, could you tell me how I can improve this article? I got a B plus.\nW: It’s quite good, actually. The language use is good and the main points are covered. There’s just too much repetition. You could have said everything within two pages.\nText 6 \nW: So Bill, what do you usually do on the weekend?\nM: I often go to the movies with friends on Friday night. How about you, Sarah?\nW: Well, I love seeing musical plays on Broadway with my friends. Have you been to many?\nM: Not really. I saw one when I moved to New York and another when my parents came to visit, but none ever since.\nText 7 \nW: Hello, Helen Smith speaking. Can I help you?\nM: Hello, this is David. Could I speak to Mike, please?\nW: I’m afraid he’s not available at the moment. Would you leave a message?\nM: Yes. I’m calling to cancel a meeting we scheduled for this afternoon.\nW: Okay. Let me take this down. Could I have your name again?\nM: Certainly. It’s David Stone.\nText 8 \nW: Can I help you, sir?\nM: I’d like to buy a camera.\nW: Right. We have ordinary cameras, movie cameras and video cameras. They’re all digital.\nM: Well, I am thinking of a video camera.\nW: Let’s see. How much do you want to spend, sir?\nM: Oh, I’m not really sure. What is the price?\nW: Well, that depends on the model and anything else you want to have with it.\nM: I see.\nW: How about this one? It has one of the new memory sticks, and a protective case for filming underwater so you can take it when you go diving.\nM: Does it have auto-focus?\nW: No, it doesn’t.\nM: That’s okay. The underwater filming is important for me, actually. How much is this?\nW: It costs 650 euros.\nM: Oh, that’s a bit expensive for me. Have you got anything similar but less expensive?\nW: Well, here is the sale of the week. It’s excellent for the price, only 470 euros, and it includes…\nText 9 \nW: A big dog celebrates a big birthday this year. Clifford, the big red dog, first appeared 50 years ago along with Emily Elizabeth, a little girl who loves him. Today, we have Norman Bridwell, to talk with NPR’s reporter on his dog’s 50th birthday. So, Norman, tell us how it all started.\nM: Well, it was 196", "scripts": ""}, "2021": {"label": "2021 全国甲卷", "audio": "past papers/listening/2021年全国甲卷英语听力附件/2021年全国统一高考英语试卷（甲、乙卷）（听力）.mp3", "answers": {"6": "A", "7": "B", "8": "A", "9": "C", "10": "B", "11": "C", "12": "A", "13": "C", "14": "C", "15": "A", "16": "B", "17": "C", "18": "A", "19": "B", "20": "B", "1": "C", "2": "A", "3": "C", "4": "C", "5": "B"}, "questions": "2021 年全国高考甲、乙卷英语听力\n\n第一部分听力（共两节，满分30分）\n做题时，先将答案标在试卷上。录音内容结束后，你将有两分钟的时间将试卷上的答案转涂到答题卡上。\n第一节（共5小题；每小题1.5分，满分7. 5分）\n听下面5段对话。每段对话后有一个小题，从题中所给的A、B、C三个选项中选出最佳选项。听完每段对话后，你都有10秒钟的时间来回答有关小题和阅读下一小题。每段对话仅读一遍。\n例: How much is the shirt?\nA. ￡19.15.         B. ￡ 9.18.         C. ￡ 9.15. \n答案是C。\n1. 【此处可播放相关音频，请去附件查看】\n What is the man doing?\nA. Asking the way.\nB. Giving directions.\nC. Correcting a mistake.\n2. 【此处可播放相关音频，请去附件查看】\nWhat dress size does the woman want?\nA. 8.\tB. 10.\tC. 12.\n3. 【此处可播放相关音频，请去附件查看】\nWhat is the woman likely to do?\nA. Make a phone call.\tB. Handle the problem.\tC. Have a rest.\n4. 此处可播放相关音频，请去附件查看】\nWhich tour does the man seem to be interested in?\nA. The evening tour.\tB. The half-day tour.\tC. The full-day tour.\n5. 【此处可播放相关音频，请去附件查看】\nWhere are the speakers?\nA. At a canteen.\tB. At a clinic.\tC. At a bank.\n第二节（共15小题；每小题1.5分，满分22.5分）\n听下面5段对话或独白。每段对话或独白后有几个小题，从题中所给的A、B、C三个选项中选出最佳选项。听每段对话或独白前，你将有时间阅读各个小题，每小题5秒钟；听完后，各小题将给出5秒钟的作答时间。每段对话或独白读两遍。\n听下面一段较长对话，回答以下小题。【此处可播放相关音频，请去附件查看】\n \n6. What does the woman think of the match?\nA. Entertaining.\tB. Discouraging.\tC. Boring.\n7. What do the speakers plan to do on Tuesday afternoon?\nA. Watch a game.\tB. Play tennis.\tC. Go to the cinema.\n听下面一段较长对话，回答以下小题。【此处可播放相关音频，请去附件查看】\n \n8. What does the man advise Mrs. White to do?\nA. Go on a diet.\tB. Do more exercise.\tC. Get enough sleep.\n9. Which can be included in Mrs. White's breakfast?\nA. Eggs.\tB. Sausages.\tC. Porridge.\n10. What is the man?\nA. A teacher.\tB. A physician.\tC. A chef.\n听下面一段较长对话，回答以下小题。【此处可播放相关音频，请去附件查看】\n \n11. How does Nancy look to Daniel? \nA. Confused.\tB. Excited.\tC. Anxious.\n12. Why does Daniel mention his performance in a play? \nA. To comfort Nancy.\tB. To express his regret.\tC. To show his pride.\n13. What is Nancy going to do next week? \nA. Take a school test.\tB. Have a check-up.\tC. Go in for a competition.\n14. What does Daniel offer to do for Nancy? \nA. Rewrite her lines.\tB. Drive her to the theatre.\tC. Help her with the practice.\n听下面一段较长对话，回答以下小题。【此处可播放相关音频，请去附件查看】\n \n15. What was Prof. Stone's grandfather afraid of? \nA. Leaving his home.\nB. Parting from his son.\nC. Taking early retirement.\n16. What does old age mean to many elderly Americans? \nA. Lack of moral support.\tB. Loss of self-worth.\tC. Change of living habits.\n17. What will Prof. Stone talk about next concerning elderly people? \nA. Public services they ask for.\nB. Health care available to them.\nC. Contributions they can make.\n听下面一段独白，回答以下小题。【此处可播放相关音频，请去附件查看】\n \n18. What does the speaker's mother want her to be?\nA. A confident person.\tB. A warm-hearted person.\tC. A humorous person.\n19. Why did the speaker feel lonely in her childhood?\nA. She often traveled by herself.\nB. Her family moved frequently.\nC. Her mother was busy working.\n20. What does the speaker mainly talk about?\nA. Importance of home schooling.\nB. Mother-daughter relationship.\nC. A role model in her family.\n\n\n\n\n\n\n\n2021 年全国高考甲、乙卷英语听力\n答案与", "scripts": "\n第一部分听力（共两节，满分30分）\n做题时，先将答案标在试卷上。录音内容结束后，你将有两分钟的时间将试卷上的答案转涂到答题卡上。\n第一节（共5小题；每小题1.5分，满分7.5分）\n听下面5段对话。每段对话后有一个小题，从题中所给的A、B、C三个选项中选出最佳选项。听完每段对话后，你都有10秒钟的时间来回答有关小题和阅读下一小题。每段对话仅读一遍。\n例：How much is the shirt?\nA. ￡19.15.         B. ￡9.18.         C. ￡9.15.\n答案是C。\n1. 【此处可播放相关音频，请去附件查看】\n What is the man doing?\nA. Asking the way.\nB. Giving directions.\nC. Correcting a mistake.\n【答案】A\n【解析】\n【原文】M: Excuse me, I got lost. I took a bus to city hall, but I can't find the place.\nW: This is the concert hall, not city hall. To go there, you should take the bus at Grand Hotel over there.\n2. 【此处可播放相关音频，请去附件查看】\nWhat dress size does the woman want?\nA. 8.\tB. 10.\tC. 12.\n【答案】C\n【解析】\n【原文】M: Can I help you?\nW: I'm looking for a size twelve dress. \nM: Oh, let me see. An eight, a ten. Ah, you're lucky. I have the prettiest dress here in a twelve. Why don't you try it on?\n3. 【此处可播放相关音频，请去附件查看】\nWhat is the woman likely to do?\nA. Make a phone call.\tB. Handle the problem.\tC. Have a rest.\n【答案】C\n【解析】\n【原文】W: Do you think you can take care of everything in the office today?\nM: No problem. Just go home and take a rest. If there is anything I feel I cannot handle, I'll call you.\n4. 【此处可播放相关音频，请去附件查看】\nWhich tour does the man seem to be interested in?\nA. The evening tour.\tB. The half-day tour.\tC. The full-day tour.\n【答案】B\n【解析】\n【原文】W: We have a half-day tour, a full-day tour and an evening tour. Which one would you like?\nM: What is the schedule of the half-day tour?\nW: It sets out at 8: 30 a. m. and returns at 2:00 p. m.\n5. 【此处可播放相关音频，请去附件查看】\nWhere are the speakers?\nA. At a canteen.\tB. At a clinic.\tC. At a bank.\n【答案】B\n【解析】\n【原文】M: Now, what seems to be the trouble, Mrs. Stevens?\nW: I've been very dizzy lately. And last night, I had some chest pain. \nM: Don't worry. Let me have a look.\n第二节（共15小题；每小题1.5分，满分22.5分）\n听下面5段对话或独白。每段对话或独白后有几个小题，从题中所给的A、B、C三个选项中选出最佳选项。听每段对话或独白前，你将有时间阅读各个小题，每小题5秒钟；听完后，各小题将给出5秒钟的作答时间。每段对话或独白读两遍。\n听下面一段较长对话，回答以下小题。【此处可播放相关音频，请去附件查看】\n \n6. What does the woman think of the match?\nA. Entertaining.\tB. Discouraging.\tC. Boring.\n7. What do the speakers plan to do on Tuesday afternoon?\nA. Watch a game.\tB. Play tennis.\tC. Go to the cinema.\n【答案】6. A    7. B\n【解析】\n【原文】W: Wow. That was a great match. I really like watching tennis games.\nM: Me too. I think tennis is an exciting sport. \nW: I think so. Do you play tennis, John?\nM: Yes, but not very well. Do you play?\nW: A little. How about a game on Tuesday afternoon?\nM: Sure.\n听下面一段较长对话，回答以下小题。【此处可播放相关音频，请去附件查看】\n \n8. What does the man advise Mrs. White to do?\nA. Go on a diet.\tB. Do more exercise.\tC. Get enough sleep.\n9. Which can be included in Mrs. White's breakfast?\nA. Eggs.\tB. Sausages.\tC. Porridge.\n10 What is the man?\nA. A teacher.\tB. A physician.\tC. A chef.\n【答案】8. A    9. C    10. B\n【解析】\n【原文】M: Mrs. White, I'm afraid we have to put you on a strict diet. From now on, you're going to have to stay away from salty food.\nW: Does that mean I can't have any more fast food?\nM: Right. You can't have any fried food or steaks. \nW: What about breakfast food like eggs and sausages?\nM: Those are all bad for you. But you can have porridge, bread and orange juice. \nW: Well, what about lunch and dinner?\nM: Have a salad for lunch. As for dinner, you can have all the vegetables you want. Fish and chicken are also okay. \nW: What about dessert? Can I still have ice cream?\nM: Yes, but not too much.\n听下面一段较长对话，回答以下小题。【此处可播放相关音频，请去附件查看】\n \n11. How does Nancy look to Daniel? \nA. Confused.\tB. Excited.\tC. Anxious.\n12. Why does Daniel mention his performance in a play? \nA. To comfort Nancy.\tB. To express his regret.\tC. To show his pride.\n13. What is Nancy going to do next week? \nA. Take a school test.\tB. Have a check-up.\tC. Go in for a competition.\n14. What does Daniel offer to do for Nancy? \nA. Rewrite her lines.\tB. Drive her to the theatre.\tC. Help her with the practice.\n【答案】11. C    12. A    13. C    14. C\n【解析】\n【原文】M: Hi Nancy! You look worried. What's wrong?\nW: Well Daniel, have you ever felt nervous on stage?\nM: Sure. Do you remember that play I was in a few years ago? I knew my lines, but I was terrified to have to recite them in front of an audience. As soon as I saw the crowd of people down there, my heart beat so fast that I was unable to say a single word. \nW: That's how I feel just thinking about the spelling competition next week. \nM: I didn't know you made it to the finals. \nW: I'm worried I'll get nervous and freeze on stage. I might forget how to spell everything, even my own name. I don't know what to do. \nM: Nancy, I know that you' re not going to forget how to spell your name. I'll help you get through this. I'll go to the school hall with you to practice. Then I'll teach you an exercise my baseball coach taught me. Believe me. It works. \nW: I feel much better now. Thanks, Daniel.\n听下面一段较长对话，回答以下小题。【此处可播放相关音频，请去附件查看】\n \n15. What was Prof. Stone's grandfather afraid of? \nA. Leaving his home.\nB. Parting from his son.\nC. Taking early retirement.\n16. What does old age mean to many elderly Americans? \nA. Lack of moral"}, "2022": {"label": "2022 全国甲卷", "audio": "past papers/listening/2022年全国甲卷英语听力附件/2022年全国甲、乙卷英语听力.mp3", "answers": {"6": "A", "7": "C", "8": "A", "9": "C", "10": "A", "11": "A", "12": "C", "13": "C", "14": "B", "15": "A", "16": "B", "17": "B", "18": "C", "19": "A", "20": "B", "1": "C", "2": "B", "3": "C", "4": "B", "5": "A"}, "questions": "2022 年全国高考甲、乙卷英语听力\n\n第一部分听力(共两节，满分30分)\n做题时，先将答案标在试卷上。录音内容结束后，你将有两分钟的时间将试卷上的答案转涂到答题卡上。\n第一节(共5小题;每小题1.5分，满分7.5分)\n听下面5段对话。每段对话后有一个小题，从题中所给的A、B、C三个选项中选出最佳选项。听完每段对话后，你都有10秒钟的时间来回答有关小题和阅读下一小题。每段对话仅读一遍。\n例：How much is the shirt? \nA. £19.15.      B. £9.18.      C. £9.15. \n答案是C。\n1. 【此处可播放相关音频，请去附件查看】\nWhat does the man want to do?\nA. Have breakfast.\tB. Take a walk.\tC. Call his office.\n2. 【此处可播放相关音频，请去附件查看】\nWhat was George doing last night?\nA. Having a meeting.\tB. Flying home.\tC. Working on a project.\n3. 【此处可播放相关音频，请去附件查看】\nWhy does the man suggest going to the park?\nA. It’s big.\tB. It’s quiet.\tC. It’s new.\n4. 【此处可播放相关音频，请去附件查看】\nHow does the woman sound?\nA. Annoyed.\tB. Pleased.\tC. Puzzled.\n5. 【此处可播放相关音频，请去附件查看】\nWhere is the man’s table?\nA. Near the door.\tB. By the window.\tC. In the corner.\n第二节(共15小题;每小题1.5分，满分22.5分)\n听下面5段对话或独白。每段对话或独白后有几个小题，从题中所给的A、B、C三个选项中选出最佳选项。听每段对话或独白前，你将有时间阅读各个小题，每小题5秒钟;听完后，各小题将给出5秒钟的作答时间。每段对话或独白读两遍。\n听下面一段较长对话，回答以下小题。【此处可播放相关音频，请去附件查看】\n\n6. What are the speakers going to do tonight?\nA. Eat out.\tB. Go shopping.\tC. Do sports.\n7. What is the probable relationship between the speakers?\nA. Boss and secretary.\tB. Hostess and guest.\tC. Husband and wife.\n听下面一段较长对话，回答以下小题。【此处可播放相关音频，请去附件查看】\n\n8. Why does the woman think July is the best time to move?\nA. Their business is slow.\nB. The weather is favorable.\nC. It's easy to hire people.\n9. How will they handle the moving?\nA. Finish it all at once.\nB. Have the sales section go first.\nC. Do one department at a time.\n听下面一段较长对话，回答以下小题。【此处可播放相关音频，请去附件查看】\n\n10. What did Peter learn from his grandfather?\nA. How to appreciate art works.\nB. How to deal with artists.\nC. How to run a museum.\n11. What did Peter do in Chicago?\nA. He studied at a college.\tB. He served in the army.\tC. He worked in a gallery.\n12. Whose works did Peter like best?\nA. Rembrandt’s.\tB. Botticelli’s.\tC. Rubens’.\n听下面一段较长对话，回答以下小题。【此处可播放相关音频，请去附件查看】\n\n13. Where does the conversation take place?\nA. At a library.\tB. In a law firm.\tC. On a train.\n14. By what time did John plan to finish his term paper?\nA. March.\tB. August.\tC. October.\n15. Why did John quit his part-time job?\nA He had to catch up with his study.\nB. He was offered a better one.\nC. He got tired of it.\n16. What is Susan's attitude to John's problem?\nA. Carefree.\tB. Understanding.\tC. Forgiving.\n听下面一段独白，回答以下小题。【此处可播放相关音频，请去附件查看】\n\n17. What did the speaker do before the year 2012?\nA. A fitness coach.\tB. A chess player.\tC. A marathon runner.\n18. Why was the 2016 Olympics important for the speaker?\nA. He was motivated by Bolt.\tB. He broke a world record.\tC. He won fifth place.\n19. Which is the hardest for the speaker?\nA. Getting over an injury.\tB. Doing strength training.\tC. Representing Botswana.\n20. What is the speaker mainly talking about?\nA. His plan to go for the gold.\nB. His experience on the track.\nC. His love for his home country.\n2022 年全国高考甲、乙卷英语听力\n答案与", "scripts": "\n第一部分听力（共两节，满分30分）\n做题时，先将答案标在试卷上。录音内容结束后，你将有两分钟的时间将试卷上的答案转涂到答题卡上。\n第一节（共5小题；每小题1.5分，满分7.5分）\n听下面5段对话。每段对话后有一个小题，从题中所给的A、B、C三个选项中选出最佳选项。听完每段对话后，你都有10秒钟的时间来回答有关小题和阅读下一小题。每段对话仅读一遍。\n例：How much is the shirt?\nA. ￡19.15.         B. ￡9.18.         C. ￡9.15.\n答案是C。\n1. 【此处可播放相关音频，请去附件查看】\nWhat does the man want to do?\nA. Have breakfast.\tB. Take a walk.\tC. Call his office.\n【答案】B\n【解析】\n【原文】M: Jenny, you can just drop me here.\nW: But we’re two streets away from the office. \nM: It’s fine. I had a big breakfast and feel like a bit of walk.\n2. 【此处可播放相关音频，请去附件查看】\nWhat was George doing last night?\nA. Having a meeting.\tB. Flying home.\tC. Working on a project.\n【答案】C\n【解析】\n【原文】W: Hello, George, you look tired. Didn’t sleep well last night?\nM: No, not at all. I had to work flat out to meet the project deadline. Now I’m really feeling a bit rundown.\n3. 【此处可播放相关音频，请去附件查看】\nWhy does the man suggest going to the park?\nA. It’s big.\tB. It’s quiet.\tC. It’s new.\n【答案】B\n【解析】\n【原文】W: John, can’t we go someplace and talk? It’s so noisy in here.\nM: Well, there’s a small park across the street. It’s usually not crowded at this time of day.\n4. 【此处可播放相关音频，请去附件查看】\nHow does the woman sound?\nA. Annoyed.\tB. Pleased.\tC. Puzzled.\n【答案】A\n【解析】\n【原文】W: We’ve got to do something about the neighbor’s dog.\nM: Why? Has he been into your flower garden again? \nW: The flower garden, the garbage can and yesterday he started digging holes in the yard.\n5. 【此处可播放相关音频，请去附件查看】\nWhere is the man’s table?\nA. Near the door.\tB. By the window.\tC. In the corner.\n【答案】C\n【解析】\n【原文】M: Hello, we have a reservation in the name of Mr. Jones. Is there any table by the window?\nW: Sorry, we’ve got this corner table for you. It’s quiet here, not close to the door.\n第二节(共15小题;每小题1.5分，满分22.5分)\n听下面5段对话或独白。每段对话或独白后有几个小题，从题中所给的A、B、C三个选项中选出最佳选项。听每段对话或独白前，你将有时间阅读各个小题，每小题5秒钟;听完后，各小题将给出5秒钟的作答时间。每段对话或独白读两遍。\n听下面一段较长对话，回答以下小题。【此处可播放相关音频，请去附件查看】\n\n6. What are the speakers going to do tonight?\nA. Eat out.\tB. Go shopping.\tC. Do sports.\n7. What is the probable relationship between the speakers?\nA. Boss and secretary.\tB. Hostess and guest.\tC. Husband and wife.\n【答案】6. A    7. C\n【解析】\n【原文】W: Dave, don’t forget we are invited out to dinner tonight.\nM: Oh, yeah. I almost forgot. What time? \nW: 7:30. We should leave the house by 6:30. You know how bad the traffic is that time of night? \nM: It's informal, isn’t it? \nW: Yeah. You can wear your new sports jacket. The one I got you as an anniversary gift. \nM: OK, well, I’ve got to go. I’ll try to get home a little earlier today. \nW: Good.\n听下面一段较长对话，回答以下小题。【此处可播放相关音频，请去附件查看】\n\n8. Why does the woman think July is the best time to move?\nA. Their business is slow.\nB. The weather is favorable.\nC. It's easy to hire people.\n9. How will they handle the moving?\nA. Finish it all at once.\nB. Have the sales section go first.\nC. Do one department at a time.\n【答案】8. A    9. C\n【解析】\n【原文】M: We need to decide exactly when we’re going to move. Any suggestions?\nW: I think July would be the best time. Our sales are always down that month. We could move all the office equipment at a weekend, do everything at once. \nM: I think a weekend is too short. Maybe we should do it department by department. \nW: What do you mean? \nM: Well, each week, a different department would move. That way, there would always be people here to handle customer inquiries, phone calls, and so on. \nW: Emm, that’s a good idea.\n听下面一段较长对话，回答以下小题。【此处可播放相关音频，请去附件查看】\n\n10. What did Peter learn from his grandfather?\nA. How to appreciate art works.\nB. How to deal with artists.\nC. How to run a museum.\n11. What did Peter do in Chicago?\nA. He studied at a college.\tB. He served in the army.\tC. He worked in a gallery.\n12. Whose works did Peter like best?\nA. Rembrandt’s.\tB. Botticelli’s.\tC. Rubens’.\n【答案】10. A    11. A    12. C\n【解析】\n【原文】W: So Mr Peter Sels, I’d be curious to know what were the early connections in your life that let you into the art field?\nM: My grandfather was an art dealer in Munich. They had a great museum in Munich. He took me to the museum, and I responded very strongly to what I saw on the walls there. I learned about art from him, I learned about looking at art from him. I think that’s what really got me started. Then many years later, after I got out of the army, I went to study art history at the University of Chicago. \nW: Tell us more about your experiences of looking at art with your grandfather. \nM: Well, we looked at the famous paintings by the great artists like Rembrandt, Botticelli, and Albert Durer. Ruben’s paintings were my favorites. Yes, I remember these things. This was when I was between 10 and 15. When I was 14, I was so anxious to see more art that a friend of mine and I bicycled across the Alps to see Venice. That was a big adventure.\n听下面一段较长对话，回答以下小题。【此处可播放相关音频，请去附件查看】\n\n13. Where does the conversation take place?\nA. At a library.\tB. In a law firm.\tC. On a train.\n14. By what time did John plan to finish his term paper?\nA. March.\tB. August.\tC. October.\n15. Why did John quit his part-time job?\nA. He h"}, "2023": {"label": "2023 新高考Ⅰ/Ⅱ", "audio": "past papers/listening/2023年新高考I、II卷英语听力附件/2023年高考英语（新高考全国Ⅰ、II卷）英语听力.mp3", "answers": {"6": "C", "7": "B", "8": "A", "9": "B", "10": "C", "11": "A", "12": "C", "13": "A", "14": "B", "15": "A", "16": "C", "17": "C", "18": "A", "19": "B", "20": "A", "1": "C", "2": "C", "3": "A", "4": "B", "5": "B"}, "questions": "2023 年新高考 I 、II卷英语听力题及听力原文、答案\n一、听力题\n第一部分  听力（1-20小题）在笔试结束后进行。（共5小题; 每小题1.5分, 满分7.5分）\n听下面5段对话。每段对话后有一个小题, 从题中所给的A、B、C三个选项中选出最佳选项。听完每段对话后, 你都有10秒钟的时间来回答有关小题和阅读下一小题。每段对话仅读一遍。\n例: How much is the shirt? \nA. £19.15.          B. £9.18.         C. £9.15. \n答案是C。\n1. 【此处可播放相关音频，请去附件查看】\nWhat will Jack probably do this weekend?\nA. Go camping.\tB. Visit a friend.\tC. Watch a film.\n2. 【此处可播放相关音频，请去附件查看】\nWhat does the woman ask the man to do?\nA. Take care of her bags.\nB Pack the food for her.\nC. Check the train schedule.\n3. 【此处可播放相关音频，请去附件查看】\nWhen will the man see Bob?\nA. This Friday.\tB. This Saturday.\tC. Next Monday.\n4. 【此处可播放相关音频，请去附件查看】\nWhy does the man apologize?\nA. For the terrible food.\nB. For the overcharge.\nC. For the waiter’s rudeness.\n5. 【此处可播放相关音频，请去附件查看】\nWhat are the speakers talking about?\nA. Writing a book.\tB. Holding a celebration.\tC. Buying a present.\n第二节（共15小题; 每小题1.5分, 满分22.5分）\n听下面一段较长对话，回答以下小题。【此处可播放相关音频，请去附件查看】\n\n6. Why does Sara make the phone call?\nA. To ask for advice.\tB. To arrange an outing.\tC. To cancel an appointment.\n7. What does David want to do?\nA. Go to a dinner party.\tB. Talk to Sara in person.\tC. Work on the new case.\n听下面一段较长对话，回答以下小题。【此处可播放相关音频，请去附件查看】\n\n8. Where is Jim now?\nA. In a taxi.\tB. On a bus.\tC. In his office.\n9. What is the woman’s suggestion?\nA. Going to the city center.\nB. Taking a short cut home.\nC. Meeting Jim in the park.\n听下面一段较长对话，回答以下小题。【此处可播放相关音频，请去附件查看】\n\n10. What did Clara do at the weekend?\nA. She planted vegetables.\nB. She went to a yard sale.\nC. She visited her grandpa.\n11. What did Mark find inside one of the books he bought?\nA. A plane ticket.\tB. A family photo.\tC. A post card.\n12. Where does Mark live?\nA. Los Angeles.\tB. Chicago.\tC. Philadelphia.\n13. What is the relationship between Mark and Ashley?\nA. Brother and sister.\tB. Husband and wife.\tC. Father and daughter.\n听下面一段较长对话，回答以下小题。【此处可播放相关音频，请去附件查看】\n\n14. What is probably the woman?\nA. A teacher.\tB. A journalist.\tC. An athlete.\n15. What does Victor find difficult as a member of the basketball team?\nA. Adapting himself to the intense training.\nB. Dealing with the pressure from the coach.\nC. Regaining the skills learned in high school.\n16. What does Victor say about the players on the team?\nA. They are of the same age.\nB. They are similar in character.\nC. They are from different countries.\n17. How does Victor feel about his team now?\nA. It’s about to break up.\tB. It’s the best in Indiana.\tC. It’s getting stronger.\n听下面一段独白，回答以下小题。【此处可播放相关音频，请去附件查看】\n\n18. Who is Tom Hokinson?\nA. Founder of a magazine.\tB. Publisher of a novel.\tC. Editor of a newspaper.\n19. What do we know about the content of The Idler?\nA. It’s old-fashioned.\tB. It’s wide-ranging.\tC. It’s student-targeted.\n20. Why does the speaker give the talk?\nA. To do a promotion.\tB. To discuss an issue.\tC. To introduce a lecturer.\n\n\n\n", "scripts": "\n第一部分  听力（1-20小题）在笔试结束后进行。（共5小题; 每小题1.5分, 满分7.5分）\n听下面5段对话。每段对话后有一个小题, 从题中所给的A、B、C三个选项中选出最佳选项。听完每段对话后, 你都有10秒钟的时间来回答有关小题和阅读下一小题。每段对话仅读一遍。\n例: How much is the shirt? \nA. £19.15.          B. £9.18.         C. £9.15. \n答案是C。\n1. 【此处可播放相关音频，请去附件查看】\nWhat will Jack probably do this weekend?\nA. Go camping.\tB. Visit a friend.\tC. Watch a film.\n【答案】C\n【解析】\n【原文】W: Jack, are you going camping with your friends this weekend?\nM: It depends. If it’s sunny, we’ll go.\nW: The weatherman says it’s going to rain.\nM: In that case, we’ll go to the cinema instead.\n2. 【此处可播放相关音频，请去附件查看】\nWhat does the woman ask the man to do?\nA. Take care of her bags.\nB. Pack the food for her.\nC. Check the train schedule.\n【答案】A\n【解析】\n【原文】W: Excuse me, could you mind my bags for a moment? I want to buy some food at the convenience store.\nM: No problem. But be quick. It was announced that my train would arrive in 10 minutes.\n3. 【此处可播放相关音频，请去附件查看】\nWhen will the man see Bob?\nA. This Friday.\tB. This Saturday.\tC. Next Monday.\n【答案】B\n【解析】\n【原文】W: Mark came out of hospital last Friday. Have you got a chance to visit him?\nM: I plan to see him this Saturday.\nW: Aren’t you going to the conference then?\nM: No. It has been rescheduled for next Monday.\n4. 【此处可播放相关音频，请去附件查看】\nWhy does the man apologize?\nA. For the terrible food.\nB. For the overcharge.\nC. For the waiter’s rudeness.\n【答案】B\n【解析】\n【原文】M: Sorry, Miss. We made a terrible mistake adding up the bill. Here is the ten dollars we have to return to you.\nW: Oh, I didn’t notice that. It’s OK. Don’t blame the waiter. He’s been really nice.\n5. 【此处可播放相关音频，请去附件查看】\nWhat are the speakers talking about?\nA. Writing a book.\tB. Holding a celebration.\tC. Buying a present.\n【答案】C\n【解析】\n【原文】W: Do you think we should get Steve a book for the new year?\nM: Books are good. But Steve wouldn’t take just any book. He has had this particular one on geography.\n第二节（共15小题; 每小题1.5分, 满分22.5分）\n听下面一段较长对话，回答以下小题。【此处可播放相关音频，请去附件查看】\n\n6. Why does Sara make the phone call?\nA. To ask for advice.\tB. To arrange an outing.\tC. To cancel an appointment.\n7. What does David want to do?\nA. Go to a dinner party.\tB. Talk to Sara in person.\tC. Work on the new case.\n【答案】6. C    7. B\n【解析】\n【原文】M: Hello, Sara.\nW: Hello, David. I can’t come for dinner tonight. Sorry.\nM: Oh, what happened?\nW: We’ve got a new case and things get pretty crazy here in the office.\nM: Well, then I’ll come to you.\nW: No, no, not tonight. Let me see if I can arrange another night.\nM: Sara, please. We need to talk. It’s about my job.\nW: Then tell me on the phone.\nM: No, it’s better if we do it in person. How about tomorrow night?\nW: I’m not sure. You can give me a call tomorrow afternoon.\nM: OK.\n听下面一段较长对话，回答以下小题。【此处可播放相关音频，请去附件查看】\n\n8. Where is Jim now?\nA. In a taxi.\tB. On a bus.\tC. In his office.\n9. What is the woman’s suggestion?\nA. Going to the city center.\nB. Taking a short cut home.\nC. Meeting Jim in the park.\n【答案】8. A    9. B\n【解析】\n【原文】W: Jim will call on us this afternoon. Do you know where he is now?\nM: Er... wait. Let me see. He has sent two messages saying that he’s done with his work at the office and got a taxi and... and he’ll arrive in twenty minutes.\nW: We can’t keep him waiting outside our home. We have to hurry.\nM: But it takes at least half an hour to get to the city center by bus. Look at the traffic.\nW: Let’s get off. We can save at least twenty minutes by walking through the park.\nM: Are you sure?\nW: Yes. A hundred percent.\n听下面一段较长对话，回答以下小题。【此处可播放相关音频，请去附件查看】\n\n10. What did Clara do at the weekend?\nA. She planted vegetables.\nB. She went to a yard sale.\nC. She visited her grandpa.\n11. What did Mark find inside one of the books he bought?\nA. A plane ticket.\tB. A family photo.\tC. A post card.\n12. Where does Mark live?\nA. Los Angeles.\tB. Chicago.\tC. Philadelphia.\n13. What is the relationship between Mark and Ashley?\nA. Brother and sister.\tB. Husband and wife.\tC. Father and daughter.\n【答案】10. C    11. A    12. C    13. A\n【解析】\n【原文】W: Morning, Mark.\nM: Morning, Clara. How was your weekend?\nW: Great. I went to my grandpa’s. He invited us to pick vegetables on his farm. My daughter had a great time there. What about you?\nM: Oh, I had a truly incredible experience. I dropped by a yard sale on Saturday and got several books.\nW: Novels?\nM: A novel and two poetry collections. As I leafed through the novel, a piece of paper fell out. It was an air ticket from 2012. The flight was from Los Angeles to Chicago and the name on the ticket was Ashley Louis.\nW: Was it?\nM: Yes. Ashley, my sister. In 2012, she lived in Los Angeles and her husband worked in Chicago. Both of them often flew between two cities. I asked the seller where he got the book. He said it was bought at a second-hand bookstore in Los Angeles three years ago. Last year, he and his family moved from Los Angeles to Philadelphia.\nW: So, all the way across the country, your sister’s old book landed in your hands. That’s really crazy.\n听下面一段较长对话，回答以下小题。【此处可播放相关音频，请去附件查看】\n\n14. What is probably the woman?\nA. A teacher.\tB. A journalist.\tC. An"}, "2024": {"label": "2024 新高考Ⅱ卷", "audio": "past papers/listening/2024年新高考二卷（新课标Ⅱ）英语听力附件/2024年新高考二卷（新课标Ⅱ）英语听力音频.mp3", "answers": {"6": "A", "7": "B", "8": "A", "9": "C", "10": "B", "11": "C", "12": "B", "13": "A", "14": "B", "15": "A", "16": "C", "17": "B", "18": "A", "19": "C", "20": "B", "1": "C", "2": "B", "3": "A", "4": "A", "5": "B"}, "questions": "2024年新高考二卷（新课标Ⅱ）英语听力题及原文、答案\n一、听力题\n第一部分  听力(共两节，满分30分)\n做题时,先将答案标在试卷上。录音内容结束后,你将有两分钟的时间将试卷上的答案转涂到答题卡上。\n第一节（共5小题;每小题1.5分,满分7.5分）\n听下面5段对话。每段对话后有一个小题,从题中所给的A、B、C三个选项中选出最佳选项。听完每段对话后,你都有10秒钟的时间来回答有关小题和阅读下一小题。每段对话仅读一遍。\n例: How much is the shirt? \nA. £19.15.         B. £9.18.         C. £9.15. \n答案是 C。\n1. 【此处可播放相关音频，请去附件查看】\nWhat did the woman do yesterday evening?\nA. She watched TV.\tB. She went shopping.\tC. She attended a show.\n2. 【此处可播放相关音频，请去附件查看】\nWhat is the man’s suggestion?\nA. Taking a rest.\tB. Going for a coffee.\tC. Having a snack.\n3. 【此处可播放相关音频，请去附件查看】\nWhat are the speakers mainly talking about?\nA. A weekend plan.\tB. A wedding invitation.\tC. A business deal.\n4. 【此处可播放相关音频，请去附件查看】\nWhere is Barbara going tonight?\nA. To a gym.\tB. To her grandma’s.\tC. To the doctor’s.\n5. 【此处可播放相关音频，请去附件查看】\nWhat is Alex doing?\nA. He’s having breakfast.\tB. He’s feeding a cat.\tC. He’s reading a book.\n第二节（共15小题;每小题1.5分,满分22.5分）\n听下面5段对话或独白。每段对话或独白后有几个小题,从题中所给的A、B、C三个选项中选出最佳选项。听每段对话或独白前,你将有时间阅读各个小题,每小题5秒钟:听完后,各小题将给出5秒钟的作答时间。每段对话或独白读两遍。\n听下面一段较长对话，回答以下小题。【此处可播放相关音频，请去附件查看】\n\n6. Where does the conversation probably take place?\nA. In a fitness center.\tB. In a sports shop.\tC. In a clinic.\n7. What does the man advise the woman to do?\nA. Buy high-quality sportswear.\nB. Keep working out regularly.\nC. Avoid over-exercising.\n听下面一段较长对话，回答以下小题。【此处可播放相关音频，请去附件查看】\n\n8. Why does the man make the call?\nA. To reserve a table.\tB. To ask about a party.\tC. To postpone a meeting.\n9. What time should the man arrive on Friday evening?\nA. At 5:30.\tB. At 6:30.\tC. At 8:00.\n10. What is the man’s name?\nA. Brown.\tB. Anderson.\tC. Howard.\n听下面一段较长对话，回答以下小题。【此处可播放相关音频，请去附件查看】\n\n11. Why does Sarah come to talk to Jacob?\nA. To make an appointment.\tB. To seek his advice.\tC. To explain a decision.\n12. How many people are there in Sarah’s group?\nA. Three.\tB. Four.\tC. Five.\n13. What is the relationship between the speakers?\nA. Classmates.\tB. Fellow workers.\tC. Teacher and student.\n听下面一段较长对话，回答以下小题。【此处可播放相关音频，请去附件查看】\n\n14. How often does the band come to perform in the park?\nA. Three times a year.\tB. Once a year.\tC. Every other year.\n15. What kind of music will be played this evening?\nA. Country music.\tB. Jazz.\tC. Rock and roll.\n16. What will Jannie do next?\nA. Catch a bus.\tB. Listen to a lecture.\tC. Go to the library.\n听下面一段独白，回答以下小题。【此处可播放相关音频，请去附件查看】\n\n17. Why did the speaker go to the hotel?\nA. To deliver a speech.\nB. To arrange a conference.\nC. To interview Mr. Rochester.\n18. What did Mr. Rochester do soon after he bought the hotel?\nA. He talked with the staff members.\nB. He had the old carpets replaced.\nC. He ran a six-month training project.\n19. What did Susan do when she met Mr. Rochester the second time?\nA. She was a cleaner.\tB. She was a secretary.\tC. She was a receptionist.\n20. What does the speaker think is key to Mr. Rochester’s success?\nA. Managing time efficiently.\nB. Valuing human relationships.\nC. Possessing a good memory.\n", "scripts": "及答案\n第一节（共5小题;每小题1.5分,满分7.5分）\n听下面5段对话。每段对话后有一个小题,从题中所给的A、B、C三个选项中选出最佳选项。听完每段对话后,你都有10秒钟的时间来回答有关小题和阅读下一小题。每段对话仅读一遍。\n例: How much is the shirt? \nA. £19.15.         B. £9.18.         C. £9.15. \n答案是 C。\n1. 【此处可播放相关音频，请去附件查看】\nWhat did the woman do yesterday evening?\nA. She watched TV.\tB. She went shopping.\tC. She attended a show.\n【答案】B\n【解析】\n【原文】M: Did you watch the talent show on TV last night? \nW: No, I missed it. I went with my mom to buy some clothes.\n2. 此处可播放相关音频，请去附件查看】\nWhat is the man’s suggestion?\nA. Taking a rest.\tB. Going for a coffee.\tC. Having a snack.\n【答案】A\n【解析】\n【原文】W: I love this park. It’s so beautiful. \n M: It surely is. Are you tired? Shall we stop by the lake for a few minutes? \nW: Good idea. Let’s go to that cafe for a little refreshment.\n3. 【此处可播放相关音频，请去附件查看】\nWhat are the speakers mainly talking about?\nA. A weekend plan.\tB. A wedding invitation.\tC. A business deal.\n【答案】A\n【解析】\n【原文】W: Tom, shall we invite the Smiths around for dinner this Sunday? \nM: Sure, but I need to pack for Monday’s business trip. What about Saturday? \nW: Okay.\n4. 【此处可播放相关音频，请去附件查看】\nWhere is Barbara going tonight?\nA. To a gym.\tB. To her grandma’s.\tC. To the doctor’s.\n【答案】B\n【解析】\n【原文】M: Barbara, do you want to play table tennis with us tonight? \nW: I’d love to, but I can’t. I’m catching the last train to Denver to see my grandma. I need to take her to visit a doctor tomorrow morning.\n5. 【此处可播放相关音频，请去附件查看】\nWhat is Alex doing?\nA. He’s having breakfast.\tB. He’s feeding a cat.\tC. He’s reading a book.\n【答案】C\n【解析】\n【原文】W: Alex, did you feed the cat this morning? I don’t think she can wait. \nM: All right. After I finish this chapter, I just can’t let go of this book.\n第二节（共15小题;每小题1.5分,满分22.5分）\n听下面5段对话或独白。每段对话或独白后有几个小题,从题中所给的A、B、C三个选项中选出最佳选项。听每段对话或独白前,你将有时间阅读各个小题,每小题5秒钟:听完后,各小题将给出5秒钟的作答时间。每段对话或独白读两遍。\n听下面一段较长对话，回答以下小题。【此处可播放相关音频，请去附件查看】\n\n6. Where does the conversation probably take place?\nA. In a fitness center.\tB. In a sports shop.\tC. In a clinic.\n7. What does the man advise the woman to do?\nA. Buy high-quality sportswear.\nB. Keep working out regularly.\nC. Avoid over-exercising.\n【答案】6. A    7. B\n【解析】\n【原文】M: Miss, do you need any help? \nW: I want to get fit, but exercise doesn’t seem to help. \nM: What kind of exercise have you done before? \nW: I did jogging now and then, but it was so boring, so I changed to weightlifting. But it was so demanding, and I was afraid of getting injured, so I went bike riding. \nM: Oh, I see. You need to be consistent. I suggest you do different kinds of exercise on one day or on different days of the week. This will help hold your interest, so you can keep coming back.\n听下面一段较长对话，回答以下小题。【此处可播放相关音频，请去附件查看】\n\n8. Why does the man make the call?\nA. To reserve a table.\tB. To ask about a party.\tC. To postpone a meeting.\n9. What time should the man arrive on Friday evening?\nA. At 5:30.\tB. At 6:30.\tC. At 8:00.\n10. What is the man’s name?\nA. Brown.\tB. Anderson.\tC. Howard.\n【答案】8. A    9. C    10. B\n【解析】\n【原文】W: Hello, Brown’s Grill. How may I help you? \nM: Hi, I’d like to book a table for Friday evening. \nW: Okay, how many people are there in your party? \n M: There will be six. \nW: And what time would you like to come? \nM: Let’s say at... 6:30. \nW: I’m afraid we don’t have anything available then. We could see you at 5:30 or 8:00. \nM: Oh, 8:00 is better. \nW: Fine. May I have your name? \nM: Yes, it’s Anderson. \nW: Thank you. We’ll see you on Friday. By the way, we’ve moved to Howard Street. \nM: Oh, yeah, I know. Thanks.\n听下面一段较长对话，回答以下小题。【此处可播放相关音频，请去附件查看】\n\n11. Why does Sarah come to talk to Jacob?\nA. To make an appointment.\tB. To seek his advice.\tC. To explain a decision.\n12 How many people are there in Sarah’s group?\nA. Three.\tB. Four.\tC. Five.\n13. What is the relationship between the speakers?\nA. Classmates.\tB. Fellow workers.\tC. Teacher and student.\n【答案】11. C    12. B    13. A\n【解析】\n【原文】W: Jacob, do you have a minute now? \n M: Sure. \nW: Well, it’s not easy to say, but I have to tell you, you’re not in our group for the class project. \nM: Sarah, what do you mean? You know, I’m always in a group with you. \n W: I know, it’s just that this time..., this time we made the group differently. And because you were late, we’ve already made the group. See, there are four of us already.\nM: so? we can’t be a group of five?\nW: Well, Professor North said there should be no more than four people in each group. It’s not about you or your work or anything like that. \nM: Okay, but please count me in next time.\n听下面一段较长对话，回答以下小题。【此处可播放相关音频，请去附件查看】\n\n14. How often does the band come to perform in the park?\nA. Three times a year.\tB. Once a year.\tC. Every other year.\n15. What kind of music will be played this evening?\nA. Country music.\tB. Jazz.\tC. Rock and roll.\n16. What will Jannie do next?\nA. Catch a bus.\tB. Listen to a lecture.\tC. Go to the library.\n【答案】14. B    15. A    16. C\n【解析】\n【原文】M: Hey, Jannie, where are you going? \nW: To the library.\nM: There is a music concert in Victoria Park at 4 o’clock. Do you want to go? \nW: Yes, Professor Darwin"}, "2025": {"label": "2025 新高考Ⅱ卷", "audio": "past papers/listening/2025年新高考二卷（全国二卷）英语听力附件/2025年新高考二卷（全国二卷）英语听力音频.mp3", "answers": {"6": "B", "7": "C", "8": "B", "9": "A", "10": "B", "11": "A", "12": "C", "13": "C", "14": "A", "15": "A", "16": "C", "17": "A", "18": "B", "19": "B", "20": "C", "1": "C", "2": "B", "3": "A", "4": "B", "5": "C"}, "questions": "2025年新高考Ⅱ卷（全国二卷）英语听力题及原文、答案\n一、听力题\n第一部分  听力(共两节，满分30分)\n做题时，先将答案标在试卷上。录音内容结束后，你将有两分钟的时间将试卷上的答案转涂到答题卡上。\n第一节(共5小题;每小题1. 5分，满分7. 5分)\n听下面5段对话。每段对话后有一个小题，从题中所给的 A、B、C三个选项中选出最佳选项。听完每段对话后，你都有10秒钟的时间来回答有关小题和阅读下一小题。每段对话仅读一遍。\n例: How much is the shirt? \nA. £19. 15.         B. £9. 18.         C. £9. 15. \n答案C. \n1. 【此处可播放相关音频，请去附件查看】\nHow will the woman probably get to Baxley?\nA. On foot.\tB. By taxi.\tC. By bus.\n2. 【此处可播放相关音频，请去附件查看】\nWhat is the man going to do?\nA. Have some dessert.\tB. Pay the bill.\tC. Cancel the trip.\n3. 【此处可播放相关音频，请去附件查看】\nWhat are the speakers talking about?\nA. Buying a computer.\tB. Doing research.\tC. Saving money.\n4. 【此处可播放相关音频，请去附件查看】\nWhat is the man’s major?\nA. Psychology.\tB. Biology.\tC. English.\n5. 【此处可播放相关音频，请去附件查看】\nWhat does Linda suggest?\nA. Buying a sports watch.     B. Borrowing Mary’s watch.     C. Getting the watch repaired.\n第二节(共15小题;每小题1. 5分，满分22. 5分)\n听下面5段对话或独白。每段对话或独白后有几个小题，从题中所给的 A、B、C三个选项中选出最佳选项。听每段对话或独白前，你将有时间阅读各个小题，每小题5秒钟;听完后，各小题将给出5秒钟的作答时间。每段对话或独白读两遍。\n听下面一段较长对话，回答以下小题。【此处可播放相关音频，请去附件查看】\n6 Why does Peter make the call?\nA. To arrange a visit.      B. To extend an invitation.     C. To confirm an appointment.\n7. Where will the speakers meet on Tuesday evening?\nA. At the theatre.         B. At a snack bar.         C. At Delia’s office.\n听下面一段较长对话，回答以下小题。【此处可播放相关音频，请去附件查看】\n\n8. What does Sam say about his daughter?\nA. She dislikes doing homework.  B. She overuses her smartphone.  C. She feels lonely at school.\n9. What is Sam’s attitude towards the school policies?\nA. Supportive.\tB. Uncertain.\tC. Disapproving.\n听下面一段较长对话，回答以下小题。【此处可播放相关音频，请去附件查看】\n\n10. What is the probable relationship between the speakers?\nA. Tourist and guide.\tB. Husband and wife.\tC. Trainer and trainee.\n11. Who came up with the idea of going rock climbing?\nA. Billy.\tB. Karen.\tC. Max.\n12. What is Jessie’s plan for tomorrow?\nA. Going horseback riding.\tB. Playing table tennis.\tC. Rowing on the lake.\n听下面一段较长对话，回答以下小题。【此处可播放相关音频，请去附件查看】\n\n13. What did Frank do before coming to Susanna?\nA. He went to a tech fair.\tB. He signed a contract.\tC. He had a job interview.\n14. What does Frank hope to get?\nA. A promotion.\tB. A vacation.\tC. A bonus.\n15. When will Frank know the result from his company?\nA. Wednesday.\tB. Thursday.\tC. Friday.\n16. Who is Susanna?\nA. Frank’s client.\tB. Frank’s lawyer.\tC. Frank’s boss.\n听下面一段独白，回答以下小题。【此处可播放相关音频，请去附件查看】\n\n17. Who is the Mini Camp intended for?\nA. Four-year-olds.\tB. Five-year-olds.\tC. Six-year-olds.\n18. Which activity does the Older Summer Camp organize?\nA Museum visits.      B. Bowling games.          C. Family gatherings.\n19 What is a requirement for joining the field trips?\nA. Camping experience.\tB. Parental permission.\tC. Swimming skills.\n20. What will the speaker do next?\nA. Collect fees.\tB. Answer questions.\tC. Show a short video.\n", "scripts": "\n第一节(共5小题;每小题1. 5分，满分7. 5分)\n听下面5段对话。每段对话后有一个小题，从题中所给的 A、B、C三个选项中选出最佳选项。听完每段对话后，你都有10秒钟的时间来回答有关小题和阅读下一小题。每段对话仅读一遍。\n例: How much is the shirt? \nA. £19. 15.         B. £9. 18.         C. £9. 15. \n答案是C. \n1. 【此处可播放相关音频，请去附件查看】\nHow will the woman probably get to Baxley?\nA. On foot.\tB. By taxi.\tC. By bus.\n【答案】C\n【解析】\n【原文】W: Is this bus going to Baxley, Sir?\nM: No, I’m afraid not. See the yellow taxi on the corner? Turn left there to Maida Street and take bus No. 4. \nW: All right. Thank you.\n2. 【此处可播放相关音频，请去附件查看】\nWhat is the man going to do?\nA. Have some dessert.\tB. Pay the bill.\tC. Cancel the trip.\n【答案】B\n【解析】\n【原文】W: So, would you folks like some dessert?\nM: Just bring us the bill, please. We need to get back on the road and continue our journey. \nW: No problem.\n3. 【此处可播放相关音频，请去附件查看】\nWhat are the speakers talking about?\nA. Buying a computer.\tB. Doing research.\tC. Saving money.\n【答案】A\n【解析】\n【原文】W: Dad, I can’t afford that computer, but I think I really need it for my research.\nM: Don’t worry, Alice. Just pay as much as you can, and I’ll make up the rest. \nW: Thank you. Then I can place the order.\n4. 【此处可播放相关音频，请去附件查看】\nWhat is the man’s major?\nA. Psychology.\tB. Biology.\tC. English.\n【答案】B\n【解析】\n【原文】W: Hi, I’m Julie. I’m from the Department of Psychology. What about you?\nM: I study biology. I hope you can understand my English. I’m still learning. \nW: Well, you speak very clearly.\n5. 【此处可播放相关音频，请去附件查看】\nWhat does Linda suggest?\nA. Buying a sports watch.\tB. Borrowing Mary’s watch.\tC. Getting the watch repaired.\n【答案】C\n【解析】\n【原文】M: Linda, I need you to help me with my problem.\nW: What did you do? Gee, you broke Mary’s sports watch? \nM: Ah! I wish I didn’t touch it. \nW: Well, don’t worry. We’ll have it fixed.\n第二节(共15小题;每小题1. 5分，满分22. 5分)\n听下面5段对话或独白。每段对话或独白后有几个小题，从题中所给的 A、B、C三个选项中选出最佳选项。听每段对话或独白前，你将有时间阅读各个小题，每小题5秒钟;听完后，各小题将给出5秒钟的作答时间。每段对话或独白读两遍。\n听下面一段较长对话，回答以下小题。【此处可播放相关音频，请去附件查看】\n\n6. Why does Peter make the call?\nA. To arrange a visit.\tB. To extend an invitation.\tC. To confirm an appointment.\n7. Where will the speakers meet on Tuesday evening?\nA. At the theatre.\tB. At a snack bar.\tC. At Delia’s office.\n【答案】6. B    7. C\n【解析】\n【原文】W: Hello?\nM: Hi Delia, this is Peter. Are you doing anything Tuesday evening? \nW: Not really. \nM: I’ve got two tickets for the National Theatre. Would you like to come? \nW: Thanks, I’d love to. What’s on? \nM: Stoppard’s latest play. \nW: Oh, Sonny told me was very good. \nM: Yes, everyone says so. Shall I meet you at your office at six o’ clock? Then we can go and have a quick snack. The play starts at seven o’ clock. \nW: Sounds great. See you Tuesday then. \nM: Good. Bye.\n听下面一段较长对话，回答以下小题。【此处可播放相关音频，请去附件查看】\n\n8. What does Sam say about his daughter?\nA. She dislikes doing homework.\tB. She overuses her smartphone.\tC. She feels lonely at school.\n9. What is Sam’s attitude towards the school policies?\nA. Supportive.\tB. Uncertain.\tC. Disapproving.\n【答案】8. B    9. A\n【解析】\n【原文】W: Hi, Sam, how is your daughter doing at school?\nM: Well, since I bought a smartphone for Jillian last summer, it seems the phone has become an extension of her arm, and it has made it impossible for her to concentrate. That really upsets me. \nW: You are not alone in that. It is said that 95% of teenagers either own or have access to a smartphone. Some schools have put in place policies banning or controlling phone use during school hours. \nM: I’m all in favor of these policies. \nW: Yeah, more and more schools have begun doing this. A friend of mine works at a school, and he told me that these policies had brought about positive changes.\n听下面一段较长对话，回答以下小题。【此处可播放相关音频，请去附件查看】\n\n10. What is the probable relationship between the speakers?\nA. Tourist and guide.\tB. Husband and wife.\tC. Trainer and trainee.\n11. Who came up with the idea of going rock climbing?\nA. Billy.\tB. Karen.\tC. Max.\n12. What is Jessie’s plan for tomorrow?\nA. Going horseback riding.\tB. Playing table tennis.\tC. Rowing on the lake.\n【答案】10. B    11. A    12. C\n【解析】\n【原文】W: Max, are you ready to go?\nM: Sure, honey. Why are you dressed like that? I thought we were going to play table tennis with Billy and Karen. \nW: Oh, change of plan. Billy suggested we go rock climbing instead. \nM: But I was really looking forward to playing table tennis. \nW: You play table tennis all the time. We’d like to go do some outdoor activities for a change, like rock climbing and horseback riding. \nM: Oh, Jessie, I thought the point of this vacation was to relax. \nW: Well, we can do something less demanding tomorrow. How about boating on the lake? What do you think? \nM: That’ll be great I like the idea of spending some time on the water. I’m sure Billy and Karen will like it too.\n听下面一段较长对话，回答以下小题。【此处可播放相关音频，请去附件查看】\n\n13. What did Frank do before coming to Susanna?\nA. He went to a tech fair.\tB. He signed a contract.\tC. He had a job interview.\n14. What does Frank hope to get?\nA. A promotion.\tB. A vacation.\tC. A bonus.\n15. When will Frank know the result from his company?\nA. Wednesday.\tB. Thursday.\tC. Friday.\n16. W"}};
+const SCENARIO_VOCAB = {"校园生活": {"words": [{"en": "assignment", "zh": "作业/任务", "note": "turn in / hand in assignment"}, {"en": "semester", "zh": "学期", "note": "fall/spring semester"}, {"en": "lecture", "zh": "讲座/讲课", "note": "attend a lecture"}, {"en": "tuition", "zh": "学费", "note": "pay tuition fees"}, {"en": "scholarship", "zh": "奖学金", "note": "apply for scholarship"}, {"en": "dormitory", "zh": "宿舍", "note": "缩写 dorm"}, {"en": "major", "zh": "专业", "note": "What's your major?"}, {"en": "deadline", "zh": "截止日期", "note": "meet the deadline"}, {"en": "essay", "zh": "论文/短文", "note": "write an essay"}, {"en": "exam", "zh": "考试", "note": "final/midterm exam"}, {"en": "curriculum", "zh": "课程", "note": "curriculum vitae = CV"}, {"en": "register", "zh": "注册/选课", "note": "register for classes"}, {"en": "professor", "zh": "教授", "note": "Prof. Smith"}, {"en": "seminar", "zh": "研讨会", "note": "attend a seminar"}, {"en": "credit", "zh": "学分", "note": "earn credits"}]}, "日常对话": {"words": [{"en": "reservation", "zh": "预订", "note": "make a reservation"}, {"en": "appointment", "zh": "预约", "note": "make/cancel an appointment"}, {"en": "available", "zh": "有空的/可用的", "note": "Are you available?"}, {"en": "convenient", "zh": "方便的", "note": "Is it convenient for you?"}, {"en": "suggest", "zh": "建议", "note": "I suggest that..."}, {"en": "recommend", "zh": "推荐", "note": "Can you recommend...?"}, {"en": "apologize", "zh": "道歉", "note": "I apologize for..."}, {"en": "grateful", "zh": "感激的", "note": "I'm grateful for..."}, {"en": "invitation", "zh": "邀请", "note": "accept/decline invitation"}, {"en": "schedule", "zh": "日程安排", "note": "busy schedule"}, {"en": "postpone", "zh": "推迟", "note": "postpone the meeting"}, {"en": "confirm", "zh": "确认", "note": "confirm the reservation"}]}, "旅游出行": {"words": [{"en": "destination", "zh": "目的地", "note": "travel destination"}, {"en": "flight", "zh": "航班", "note": "book/catch a flight"}, {"en": "departure", "zh": "出发", "note": "departure time/gate"}, {"en": "arrival", "zh": "到达", "note": "arrival time/terminal"}, {"en": "luggage", "zh": "行李", "note": "carry-on luggage"}, {"en": "boarding pass", "zh": "登机牌", "note": "show your boarding pass"}, {"en": "passport", "zh": "护照", "note": "valid passport"}, {"en": "accommodation", "zh": "住宿", "note": "book accommodation"}, {"en": "sightseeing", "zh": "观光", "note": "go sightseeing"}, {"en": "guide", "zh": "导游/指南", "note": "tour guide"}]}, "工作商务": {"words": [{"en": "interview", "zh": "面试/采访", "note": "job interview"}, {"en": "promotion", "zh": "晋升", "note": "get a promotion"}, {"en": "colleague", "zh": "同事", "note": "work with colleagues"}, {"en": "deadline", "zh": "截止日期", "note": "meet/miss the deadline"}, {"en": "contract", "zh": "合同", "note": "sign a contract"}, {"en": "budget", "zh": "预算", "note": "within/over budget"}, {"en": "client", "zh": "客户", "note": "meet with a client"}, {"en": "salary", "zh": "薪水", "note": "annual salary"}, {"en": "position", "zh": "职位", "note": "apply for a position"}, {"en": "conference", "zh": "会议", "note": "attend a conference"}]}, "健康医疗": {"words": [{"en": "appointment", "zh": "预约", "note": "doctor's appointment"}, {"en": "symptom", "zh": "症状", "note": "show symptoms"}, {"en": "prescription", "zh": "处方", "note": "write a prescription"}, {"en": "insurance", "zh": "保险", "note": "health insurance"}, {"en": "allergy", "zh": "过敏", "note": "have an allergy to..."}, {"en": "treatment", "zh": "治疗", "note": "receive treatment"}, {"en": "recover", "zh": "康复", "note": "recover from illness"}, {"en": "emergency", "zh": "紧急情况", "note": "in case of emergency"}]}, "餐饮购物": {"words": [{"en": "menu", "zh": "菜单", "note": "look at the menu"}, {"en": "order", "zh": "点餐/订单", "note": "place an order"}, {"en": "bill", "zh": "账单", "note": "pay the bill"}, {"en": "discount", "zh": "折扣", "note": "get a discount"}, {"en": "refund", "zh": "退款", "note": "ask for a refund"}, {"en": "receipt", "zh": "收据", "note": "keep the receipt"}, {"en": "size", "zh": "尺码", "note": "What size do you wear?"}, {"en": "specialty", "zh": "特色菜", "note": "house specialty"}]}};
+
+// ============ STATE ============
+const STORAGE_KEY = 'fish_listening_garden';
+let state = loadState();
+let currentYear = null;
+let flashcardIdx = 0;
+let flashcardWords = [];
+
+function defaultState() {
+  return {
+    yearsDone: {},
+    scores: {},
+    notes: '',
+    vocabLearned: {},
+    practiceDays: {},
+    totalCorrect: 0,
+    totalAttempted: 0,
+  };
+}
+
+// ==================== TTS MANAGER (Web Speech API) ====================
+const TTSManager = (function() {
+  const STORAGE_KEY = 'tts_settings';
+  const CHUNK_THRESHOLD = 200;
+  const DEFAULT_RATE = 0.85;
+  let settings = loadTtsSettings();
+  let currentVoice = null;
+  let utteranceQueue = [];
+  let isSpeakingFlag = false;
+  let currentEl = null;
+  let onStartCb = null;
+  let onEndCb = null;
+
+  function loadTtsSettings() {
+    try { const s = localStorage.getItem(STORAGE_KEY); if (s) return JSON.parse(s); } catch(e) {}
+    return { voiceName: null, rate: DEFAULT_RATE, volume: 1.0 };
+  }
+  function saveSettings() { localStorage.setItem(STORAGE_KEY, JSON.stringify(settings)); }
+
+  function findBestVoice() {
+    const voices = speechSynthesis.getVoices();
+    if (!voices.length) return null;
+    if (settings.voiceName) { const m = voices.find(v => v.name === settings.voiceName); if (m) return m; }
+    const tiers = [
+      v => v.lang.startsWith('en-US') && /Google|Natural|Samantha|Zira|Microsoft|Karen/i.test(v.name),
+      v => v.lang.startsWith('en-GB') && /Female|Google|Fiona/i.test(v.name),
+      v => v.lang.startsWith('en-US'),
+      v => v.lang.startsWith('en-GB'),
+      v => v.lang.startsWith('en-')
+    ];
+    for (const fn of tiers) { const v = voices.find(fn); if (v) return v; }
+    return voices[0];
+  }
+
+  function splitText(text) {
+    if (text.length <= CHUNK_THRESHOLD) return [text];
+    const sentences = text.match(/[^.!?]+[.!?]+[\s]*/g);
+    if (!sentences) return [text];
+    const chunks = []; let cur = '';
+    for (const s of sentences) {
+      if ((cur + s).length > CHUNK_THRESHOLD && cur) { chunks.push(cur.trim()); cur = s; }
+      else { cur += s; }
+    }
+    if (cur.trim()) chunks.push(cur.trim());
+    if (chunks.length === 1 && chunks[0].length > CHUNK_THRESHOLD) {
+      const parts = chunks[0].split(/([,;:—–]+[\s]*)/g);
+      const rebuilt = []; let tmp = '';
+      for (const p of parts) {
+        if ((tmp + p).length > CHUNK_THRESHOLD && tmp) { rebuilt.push(tmp.trim()); tmp = p; }
+        else { tmp += p; }
+      }
+      if (tmp.trim()) rebuilt.push(tmp.trim());
+      if (rebuilt.length > 1) return rebuilt;
+    }
+    return chunks;
+  }
+
+  function updateStopFloat(show) {
+    const btn = document.getElementById('ttsStopFloat');
+    if (btn) btn.style.display = show ? 'flex' : 'none';
+  }
+
+  function clearHighlight() {
+    if (currentEl) { currentEl.classList.remove('tts-speaking'); currentEl = null; }
+  }
+
+  function setHighlight(el) {
+    clearHighlight();
+    if (el) { currentEl = el; el.classList.add('tts-speaking'); }
+  }
+
+  function speakNext() {
+    if (utteranceQueue.length === 0) {
+      isSpeakingFlag = false; updateStopFloat(false); clearHighlight();
+      if (onEndCb) { const cb = onEndCb; onEndCb = null; cb(); }
+      return;
+    }
+    const chunk = utteranceQueue.shift();
+    const utter = new SpeechSynthesisUtterance(chunk);
+    utter.voice = currentVoice;
+    utter.rate = settings.rate;
+    utter.volume = settings.volume;
+    utter.onstart = function() { isSpeakingFlag = true; };
+    utter.onend = function() { setTimeout(speakNext, 80); };
+    utter.onerror = function(e) {
+      if (e.error === 'canceled' || e.error === 'interrupted') {
+        utteranceQueue = []; isSpeakingFlag = false; updateStopFloat(false); clearHighlight();
+        return;
+      }
+      setTimeout(speakNext, 80);
+    };
+    speechSynthesis.speak(utter);
+  }
+
+  return {
+    getSettings: function() { return settings; },
+    setRate: function(rate) { settings.rate = Math.max(0.5, Math.min(2.0, rate)); saveSettings(); },
+    setVoice: function(name) { settings.voiceName = name; currentVoice = null; saveSettings(); },
+    getAvailableVoices: function() { return speechSynthesis.getVoices().filter(v => v.lang.startsWith('en-')); },
+    isSpeaking: function() { return isSpeakingFlag || speechSynthesis.speaking; },
+
+    speak: function(text, opts) {
+      opts = opts || {};
+      const clean = (text || '').trim();
+      if (!clean) return false;
+      this.stop();
+      if (!currentVoice) currentVoice = findBestVoice();
+      utteranceQueue = splitText(clean);
+      onStartCb = opts.onStart || null;
+      onEndCb = opts.onEnd || null;
+      updateStopFloat(true);
+      if (opts.el) setHighlight(opts.el);
+      if (opts.rate !== undefined) settings.rate = opts.rate;
+      if (onStartCb) onStartCb();
+      speakNext();
+      return true;
+    },
+
+    speakWord: function(text, el) {
+      return this.speak(text, { rate: DEFAULT_RATE, el: el });
+    },
+
+    stop: function() {
+      speechSynthesis.cancel();
+      utteranceQueue = [];
+      isSpeakingFlag = false;
+      updateStopFloat(false);
+      clearHighlight();
+      onEndCb = null;
+    },
+
+    init: function() {
+      if (speechSynthesis.getVoices().length === 0) {
+        speechSynthesis.onvoiceschanged = function() { currentVoice = findBestVoice(); };
+      } else { currentVoice = findBestVoice(); }
+      if (!document.getElementById('ttsStopFloat')) {
+        const btn = document.createElement('button');
+        btn.id = 'ttsStopFloat'; btn.className = 'tts-stop-float';
+        btn.innerHTML = '⏹️'; btn.title = '停止朗读';
+        btn.style.display = 'none';
+        btn.addEventListener('click', function(e) { e.stopPropagation(); TTSManager.stop(); });
+        document.body.appendChild(btn);
+      }
+      // Handle page visibility changes
+      document.addEventListener('visibilitychange', function() {
+        if (!document.hidden && TTSManager.isSpeaking()) {
+          updateStopFloat(true);
+        }
+      });
+      const warmUp = function() {
+        const u = new SpeechSynthesisUtterance(''); u.volume = 0;
+        speechSynthesis.speak(u);
+        document.removeEventListener('click', warmUp);
+        document.removeEventListener('touchstart', warmUp);
+      };
+      document.addEventListener('click', warmUp, { once: true });
+      document.addEventListener('touchstart', warmUp, { once: true });
+    }
+  };
+})();
+
+function loadState() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) return JSON.parse(saved);
+  } catch(e) {}
+  // Migrate from old key
+  try {
+    const old = localStorage.getItem('fish_listening');
+    if (old) return JSON.parse(old);
+  } catch(e) {}
+  return defaultState();
+}
+
+function saveState() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  updateStats();
+}
+
+// ============ INIT ============
+// ═══ Theme Toggle ═══
+function toggleTheme() {
+  const html = document.documentElement;
+  const btn = document.getElementById('themeToggle');
+  const isDark = html.getAttribute('data-theme') === 'dark';
+  if (isDark) {
+    html.removeAttribute('data-theme');
+    btn.textContent = '🌙';
+    localStorage.setItem('sg_theme', 'light');
+  } else {
+    html.setAttribute('data-theme', 'dark');
+    btn.textContent = '☀️';
+    localStorage.setItem('sg_theme', 'dark');
+  }
+}
+
+function applyTheme() {
+  const saved = localStorage.getItem('sg_theme') || 'light';
+  if (saved === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    document.getElementById('themeToggle').textContent = '☀️';
+  }
+}
+
+// ═══ Fish Cheer ═══
+const CHEERS = [
+  '宁鱼鱼加油！💪', '听力满分！🎧', '你可以的！🌟', '今天也很棒！✨',
+  '继续冲刺！🔥', '耳朵越来越灵！👂', '高考必胜！🎯', '你是最棒的！💜',
+  '鱼鱼冲鸭！🐟', '每题都对！✅', '每日坚持！📅', '40天提分！📈'
+];
+function cheerFish(name) {
+  const el = document.getElementById('fishCheer');
+  if (!el) return;
+  const msg = CHEERS[Math.floor(Math.random() * CHEERS.length)];
+  el.textContent = msg;
+  el.classList.remove('pop');
+  void el.offsetWidth;
+  el.classList.add('pop');
+  const fish = document.querySelector(name === 'nini' ? '.fish-nini' : '.fish-yuyu');
+  if (fish) { fish.style.transform = 'scale(1.4)'; setTimeout(() => { fish.style.transform = ''; }, 200); }
+}
+
+function init() {
+  TTSManager.init();
+  applyTheme();
+  renderYearSelector();
+  renderProgressTable();
+  renderScenarioVocab();
+  initFlashcards();
+  updateStats();
+  updateDailyCheckin();
+
+  // Tab nav
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      this.classList.add('active');
+      document.getElementById('tab-' + this.dataset.tab).classList.add('active');
+    });
+  });
+}
+
+// ============ YEAR SELECTOR ============
+function renderYearSelector() {
+  const container = document.getElementById('yearSelector');
+  const years = Object.keys(YEAR_DATA).sort();
+  container.innerHTML = years.map(y => {
+    const d = YEAR_DATA[y];
+    const done = state.yearsDone[y];
+    const icon = done ? '✅' : '📋';
+    return `<button class="year-btn ${done ? 'active' : ''}" onclick="selectYear(${y})">
+      ${icon} ${d.label}
+    </button>`;
+  }).join('');
+}
+
+function selectYear(year) {
+  currentYear = year;
+  const data = YEAR_DATA[year];
+  if (!data) return;
+
+  document.getElementById('practiceContent').style.display = 'block';
+
+  // Update audio
+  const audioEl = document.getElementById('audioEl');
+  const audioSrc = document.getElementById('audioSource');
+  const audioPath = document.getElementById('audioPathDisplay');
+  audioSrc.src = data.audio;
+  audioPath.textContent = data.audio;
+  audioEl.load();
+
+  // Update year buttons
+  document.querySelectorAll('.year-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+
+  // Render questions
+  renderQuestions(data);
+
+  // Track practice day
+  const today = new Date().toISOString().split('T')[0];
+  state.practiceDays[today] = true;
+  saveState();
+}
+
+// ============ RENDER QUESTIONS ============
+function renderQuestions(data) {
+  let html = '';
+
+  // Parse questions from text
+  const qText = data.questions;
+  const lines = qText.split('\n');
+
+  // Find the question numbers and their answers
+  const answers = data.answers || {};
+
+  html += '<h3>📋 听力试题</h3>';
+  html += '<p style="color:#888;margin-bottom:10px;">点击答案区域即可查看答案 | 点击"查看原文"可显示听力原文</p>';
+
+  // Group questions
+  let currentGroup = '';
+  let qBlocks = [];
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i].trim();
+    if (!line) continue;
+
+    // Check if this is a question number
+    const qMatch = line.match(/^(\d{1,2})\.?\s+(.+)/);
+    if (qMatch) {
+      const qNum = parseInt(qMatch[1]);
+      if (qNum >= 1 && qNum <= 20) {
+        const qText2 = qMatch[2].replace(/【.*?】/g, '').trim();
+        const options = [];
+        // Check next 3 lines for options A/B/C
+        for (let j = i+1; j < Math.min(i+4, lines.length); j++) {
+          const optLine = lines[j].trim();
+          const optMatch = optLine.match(/^([A-C])\.?\s+(.+)/);
+          if (optMatch) {
+            options.push(optMatch[0]);
+          } else {
+            break;
+          }
+        }
+        qBlocks.push({
+          num: qNum,
+          text: qText2,
+          options: options,
+          answer: answers[qNum] || '?'
+        });
+      }
+    }
+  }
+
+  // Display questions in groups
+  if (qBlocks.length === 0) {
+    // Fallback: just show the raw text with answer highlights
+    html += '<div style="white-space:pre-wrap;line-height:1.8;font-size:0.9em;">';
+    html += escapeHtml(qText);
+    html += '</div>';
+
+    // Show answer summary
+    html += '<h3 style="margin-top:15px;">📋 答案速查</h3>';
+    html += '<div style="display:flex;flex-wrap:wrap;gap:10px;margin:10px 0;">';
+    for (let i = 1; i <= 20; i++) {
+      const ans = answers[i] || '?';
+      html += `<span style="padding:5px 10px;background:#f0f8ff;border-radius:4px;">
+        <strong>Q${i}</strong>: <span class="answer-hidden" onclick="revealAnswer(this)">${ans}</span>
+      </span>`;
+    }
+    html += '</div>';
+  } else {
+    // Display as question blocks
+    html += '<h4>📝 试题列表</h4>';
+    qBlocks.forEach(q => {
+      html += `<div class="question-block">
+        <div class="q-header">
+          <span class="q-num">Q${q.num}</span>
+          <button class="tts-btn tts-btn-inline" style="margin-right:6px" onclick="event.stopPropagation();TTSManager.speakWord(this.closest('.question-block').querySelector('.q-text').textContent, this.closest('.question-block').querySelector('.q-text'))">🔊</button>
+          <span>答案: <span class="answer-hidden" onclick="revealAnswer(this)">${q.answer}</span></span>
+        </div>
+        <div class="q-text">${escapeHtml(q.text)}</div>
+        ${q.options.length > 0 ? '<div class="q-options">' + q.options.map(o => escapeHtml(o)).join('<br>') + '</div>' : ''}
+      </div>`;
+    });
+
+    // Answer summary
+    html += '<h3 style="margin-top:15px;">📋 答案速查表</h3>';
+    html += '<div style="display:flex;flex-wrap:wrap;gap:8px;margin:10px 0;">';
+    for (let i = 1; i <= 20; i++) {
+      const ans = answers[i] || '?';
+      html += `<span style="padding:5px 10px;background:#f0f8ff;border-radius:4px;">
+        <strong>Q${i}</strong>: <span class="answer-hidden" onclick="revealAnswer(this)">${ans}</span>
+      </span>`;
+    }
+    html += '</div>';
+  }
+
+  // Script section
+  if (data.scripts) {
+    html += '<div style="margin-top:15px;">';
+    html += '<button class="btn btn-primary" onclick="showFullScript()">📜 查看听力原文</button>';
+    html += '</div>';
+  }
+
+  // Quick self-check
+  html += '<div style="margin-top:20px;padding:15px;background:#eafaf1;border-radius:8px;">';
+  html += '<h4>✅ 快速自评</h4>';
+  html += '<p>听完后自我评测正确题数：</p>';
+  html += '<div style="display:flex;gap:10px;flex-wrap:wrap;margin:10px 0;">';
+  for (let i = 0; i <= 20; i++) {
+    html += `<button class="btn btn-sm ${i >= 15 ? 'btn-success' : i >= 10 ? 'btn-warning' : 'btn-primary'}" onclick="selfScore(${i})">${i}/20 ${i >= 17 ? '🌟' : i >= 14 ? '👍' : i >= 10 ? '📚' : ''}</button>`;
+  }
+  html += '</div>';
+  html += '</div>';
+
+  document.getElementById('yearContent').innerHTML = html;
+}
+
+function revealAnswer(el) {
+  if (el.classList.contains('answer-hidden')) {
+    el.classList.remove('answer-hidden');
+    el.classList.add('answer-shown');
+  } else {
+    el.classList.add('answer-hidden');
+    el.classList.remove('answer-shown');
+  }
+}
+
+function showFullScript() {
+  const data = YEAR_DATA[currentYear];
+  if (!data || !data.scripts) return;
+  document.getElementById('modalScript').textContent = data.scripts;
+  // Add Read Aloud button if not already present
+  let ttsBtn = document.getElementById('modalTtsBtn');
+  if (!ttsBtn) {
+    ttsBtn = document.createElement('button');
+    ttsBtn.id = 'modalTtsBtn';
+    ttsBtn.className = 'btn btn-primary';
+    ttsBtn.style.marginRight = '8px';
+    ttsBtn.innerHTML = '🔊 朗读原文';
+    ttsBtn.onclick = function(e) { e.stopPropagation(); ttsModalScript(); };
+    const modalHeader = document.querySelector('#scriptModal .modal-content h2');
+    if (modalHeader) modalHeader.appendChild(ttsBtn);
+  }
+  document.getElementById('scriptModal').classList.add('show');
+}
+
+function closeModal() {
+  TTSManager.stop();
+  document.getElementById('scriptModal').classList.remove('show');
+}
+
+function ttsModalScript() {
+  if (TTSManager.isSpeaking()) {
+    TTSManager.stop();
+    const btn = document.getElementById('modalTtsBtn');
+    if (btn) btn.innerHTML = '🔊 朗读原文';
+    return;
+  }
+  const text = document.getElementById('modalScript').textContent;
+  const btn = document.getElementById('modalTtsBtn');
+  TTSManager.speak(text, {
+    rate: 0.82,
+    onStart: function() { if (btn) btn.innerHTML = '⏹️ 停止朗读'; },
+    onEnd: function() { if (btn) btn.innerHTML = '🔊 朗读原文'; }
+  });
+}
+
+function toggleSlowSpeed() {
+  const audio = document.getElementById('audioEl');
+  const btn = document.getElementById('speedBtn');
+  if (audio.playbackRate === 0.75) {
+    audio.playbackRate = 1.0;
+    btn.textContent = '0.75x 慢速';
+  } else {
+    audio.playbackRate = 0.75;
+    btn.textContent = '1.0x 正常';
+  }
+}
+
+function selfScore(correct) {
+  if (!currentYear) return;
+  state.yearsDone[currentYear] = true;
+  state.scores[currentYear] = correct;
+  state.totalCorrect += correct;
+  state.totalAttempted += 20;
+  saveState();
+  renderYearSelector();
+  renderProgressTable();
+  updateStats();
+  alert(`已记录：${YEAR_DATA[currentYear].label} 正确 ${correct}/20 🎉`);
+}
+
+// ============ SCENARIO VOCAB ============
+function renderScenarioVocab(filter = '') {
+  let html = '';
+  let cardCounter = 0; // Global counter for unique card IDs
+  for (const [category, data] of Object.entries(SCENARIO_VOCAB)) {
+    const filtered = filter ? data.words.filter(w =>
+      w.en.toLowerCase().includes(filter.toLowerCase()) ||
+      w.zh.includes(filter) ||
+      (w.note && w.note.includes(filter))
+    ) : data.words;
+
+    if (filtered.length === 0 && filter) continue;
+
+    html += `<h3>${category}</h3>`;
+    html += '<div class="scenario-grid">';
+    filtered.forEach((w, idx) => {
+      const learned = state.vocabLearned[w.en];
+      const cardId = `vc-${cardCounter++}`;
+      html += `<div class="vocab-item${learned ? ' learned' : ''}" id="${cardId}" onclick="flipVocabCard(this)">
+        <div class="vocab-item-inner">
+          <!-- FRONT: English + Chinese + note -->
+          <div class="vocab-item-front">
+            <div style="display:flex;align-items:center;gap:4px;min-width:0;flex:1;">
+              <button class="tts-btn tts-btn-inline" style="margin-right:4px;flex-shrink:0;" onclick="event.stopPropagation();TTSManager.speakWord(this.nextElementSibling.textContent.replace('✅ ',''), this)">🔊</button>
+              <span class="en" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${learned ? '✅ ' : ''}${w.en}</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;">
+              <span class="zh">${w.zh}</span>
+              <span class="note" style="max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${w.note || ''}</span>
+              <button class="btn btn-sm ${learned ? 'btn-warning' : 'btn-success'}" style="flex-shrink:0;min-height:32px;" onclick="event.stopPropagation();toggleVocabLearned('${w.en.replace(/'/g, "\\'")}', '${cardId}')">${learned ? '取消' : '学会'}</button>
+            </div>
+            <span class="flip-hint">↻</span>
+          </div>
+          <!-- BACK: Spelling mode -->
+          <div class="vocab-item-back">
+            <div class="spell-prompt">🔤 拼写：<strong>${w.zh}</strong></div>
+            <div class="spell-row">
+              <input type="text" placeholder="输入英文单词..." autocomplete="off" autocorrect="off" spellcheck="false"
+                onkeydown="if(event.key==='Enter')checkSpelling(document.getElementById('${cardId}'), '${w.en.replace(/'/g, "\\'")}')"
+                onclick="event.stopPropagation()">
+              <button onclick="event.stopPropagation();checkSpelling(document.getElementById('${cardId}'), '${w.en.replace(/'/g, "\\'")}')">✓</button>
+            </div>
+            <div class="spell-result"></div>
+          </div>
+        </div>
+      </div>`;
+    });
+    html += '</div>';
+  }
+  if (!html) html = '<p style="color:#999;text-align:center;">没有匹配的词汇</p>';
+  document.getElementById('scenarioVocab').innerHTML = html;
+}
+
+function searchVocab(query) {
+  renderScenarioVocab(query);
+}
+
+function toggleVocabLearned(word, cardId) {
+  if (state.vocabLearned[word]) {
+    delete state.vocabLearned[word];
+  } else {
+    state.vocabLearned[word] = new Date().toISOString();
+  }
+  saveState();
+  // Preserve search filter if any
+  const searchBox = document.querySelector('.search-box');
+  const query = searchBox ? searchBox.value : '';
+  renderScenarioVocab(query);
+  initFlashcards();
+  updateStats();
+  // If card had flip state, preserve it after re-render
+  if (cardId) {
+    setTimeout(() => {
+      const card = document.getElementById(cardId);
+      if (card) card.classList.add('flipped');
+    }, 50);
+  }
+}
+
+// ============ VOCAB CARD FLIP & SPELLING ============
+function flipVocabCard(cardEl) {
+  // Don't flip if clicking on interactive elements (handled by stopPropagation)
+  cardEl.classList.toggle('flipped');
+  // Clear any previous feedback classes
+  cardEl.classList.remove('shake', 'success-pulse');
+  const result = cardEl.querySelector('.spell-result');
+  if (result) result.textContent = '';
+  const input = cardEl.querySelector('.spell-row input');
+  if (input && !cardEl.classList.contains('flipped')) input.value = '';
+}
+
+function checkSpelling(cardEl, correctWord) {
+  const input = cardEl.querySelector('.spell-row input');
+  const result = cardEl.querySelector('.spell-result');
+  if (!input || !result) return;
+  const userAnswer = input.value.trim();
+  if (!userAnswer) return;
+
+  // Remove previous feedback classes
+  cardEl.classList.remove('shake', 'success-pulse');
+  void cardEl.offsetWidth; // Force reflow
+
+  const isCorrect = userAnswer.toLowerCase() === correctWord.toLowerCase();
+  if (isCorrect) {
+    cardEl.classList.add('success-pulse');
+    result.innerHTML = '<span style="color:var(--green);">✅ 正确！太棒了！</span>';
+    playSoundEffect('correct');
+    // Auto mark as learned
+    if (!state.vocabLearned[correctWord]) {
+      state.vocabLearned[correctWord] = new Date().toISOString();
+      saveState();
+      updateStats();
+      initFlashcards();
+    }
+    // Auto flip back after 1.5s
+    setTimeout(() => {
+      cardEl.classList.remove('flipped');
+      cardEl.classList.add('learned');
+      const searchBox = document.querySelector('.search-box');
+      renderScenarioVocab(searchBox ? searchBox.value : '');
+      initFlashcards();
+    }, 1500);
+  } else {
+    cardEl.classList.add('shake');
+    result.innerHTML = `<span style="color:var(--error);">❌ 不对哦，正确答案：<strong>${correctWord}</strong></span>`;
+    playSoundEffect('wrong');
+    // Clear after shake ends, re-render after delay
+    setTimeout(() => {
+      cardEl.classList.remove('shake');
+      input.value = '';
+      const searchBox = document.querySelector('.search-box');
+      renderScenarioVocab(searchBox ? searchBox.value : '');
+    }, 1200);
+  }
+}
+
+// Web Audio API sound effects (no external files needed)
+let audioCtx = null;
+function getAudioCtx() {
+  if (!audioCtx) {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  // Resume if suspended (autoplay policy)
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  return audioCtx;
+}
+
+function playSoundEffect(type) {
+  try {
+    const ctx = getAudioCtx();
+    const now = ctx.currentTime;
+    if (type === 'correct') {
+      // Ascending pleasant two-tone
+      [523.25, 659.25].forEach((freq, i) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.value = freq;
+        gain.gain.setValueAtTime(0.15, now + i * 0.12);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.12 + 0.3);
+        osc.connect(gain); gain.connect(ctx.destination);
+        osc.start(now + i * 0.12); osc.stop(now + i * 0.12 + 0.3);
+      });
+    } else if (type === 'wrong') {
+      // Low descending buzzer
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'square';
+      osc.frequency.setValueAtTime(220, now);
+      osc.frequency.linearRampToValueAtTime(150, now + 0.35);
+      gain.gain.setValueAtTime(0.08, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
+      osc.connect(gain); gain.connect(ctx.destination);
+      osc.start(now); osc.stop(now + 0.4);
+    }
+  } catch(e) { /* Silently fail - audio is decorative */ }
+}
+function initFlashcards() {
+  flashcardWords = [];
+  for (const [cat, data] of Object.entries(SCENARIO_VOCAB)) {
+    data.words.forEach(w => {
+      if (!state.vocabLearned[w.en]) {
+        flashcardWords.push({en: w.en, zh: w.zh, note: w.note || ''});
+      }
+    });
+  }
+  flashcardIdx = 0;
+  document.getElementById('cardTotal').textContent = flashcardWords.length;
+  showCard();
+  document.getElementById('flashcard').classList.remove('flipped');
+}
+
+function showCard() {
+  if (flashcardWords.length === 0) {
+    document.getElementById('fcFront').textContent = '🎉 全部学完!';
+    document.getElementById('fcBack').textContent = '太棒了!';
+    document.getElementById('cardIdx').textContent = flashcardWords.length;
+    return;
+  }
+  const w = flashcardWords[flashcardIdx % flashcardWords.length];
+  document.getElementById('fcFront').innerHTML = `<button class="tts-btn tts-btn-card" onclick="event.stopPropagation();TTSManager.speakWord(this.nextElementSibling.textContent, this.closest('.flashcard-front'))">🔊</button><span>${w.en.replace(/'/g, '&#39;')}</span>`;
+  document.getElementById('fcBack').innerHTML = `<div style="text-align:center;">${w.zh}<br><small style="font-weight:normal;">${w.note}</small></div>`;
+  document.getElementById('cardIdx').textContent = (flashcardIdx % flashcardWords.length) + 1;
+  document.getElementById('flashcard').classList.remove('flipped');
+}
+
+function flipCard() {
+  document.getElementById('flashcard').classList.toggle('flipped');
+}
+
+function nextCard() {
+  flashcardIdx++;
+  showCard();
+}
+
+function markVocabLearned() {
+  if (flashcardWords.length === 0) return;
+  const w = flashcardWords[flashcardIdx % flashcardWords.length];
+  state.vocabLearned[w.en] = new Date().toISOString();
+  saveState();
+  flashcardWords.splice(flashcardIdx % flashcardWords.length, 1);
+  document.getElementById('cardTotal').textContent = flashcardWords.length;
+  renderScenarioVocab();
+  showCard();
+  updateStats();
+}
+
+// ============ PROGRESS TABLE ============
+function renderProgressTable() {
+  const tbody = document.getElementById('progressBody');
+  const years = Object.keys(YEAR_DATA).sort();
+  tbody.innerHTML = years.map(y => {
+    const d = YEAR_DATA[y];
+    const done = state.yearsDone[y];
+    const score = state.scores[y];
+    const pct = score !== undefined ? Math.round(score / 20 * 100) : '--';
+    const status = done ? (score >= 17 ? '🌟 优秀' : score >= 14 ? '👍 良好' : score >= 10 ? '📚 需加强' : '💪 继续努力') : '⬜ 未练习';
+
+    let stars = '';
+    for (let s = 1; s <= 5; s++) {
+      const earned = done && score >= s * 4;
+      stars += `<span class="star ${earned ? 'earned' : ''}" onclick="setScore(${y}, ${s*4})" title="${s}星：正确${s*4}题以上">⭐</span>`;
+    }
+
+    return `<tr>
+      <td>${y}</td>
+      <td>${d.label}</td>
+      <td>${pct === '--' ? '--' : pct + '%'}</td>
+      <td>${status}</td>
+      <td>${stars}</td>
+      <td><button class="btn btn-sm btn-primary" onclick="selectYear(${y});document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));document.querySelector('[data-tab=practice]').classList.add('active');document.getElementById('tab-practice').classList.add('active');">去练习</button></td>
+    </tr>`;
+  }).join('');
+}
+
+function setScore(year, targetScore) {
+  if (!confirm(`标记 ${YEAR_DATA[year].label} 的正确数为 ${targetScore}/20 吗？`)) return;
+  state.yearsDone[year] = true;
+  state.scores[year] = targetScore;
+  state.totalCorrect = Object.values(state.scores).reduce((a, b) => a + b, 0);
+  state.totalAttempted = Object.keys(state.scores).length * 20;
+  saveState();
+  renderProgressTable();
+  renderYearSelector();
+  updateStats();
+}
+
+// ============ NOTES ============
+document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('studyNotes').value = state.notes || '';
+});
+
+function saveNotes() {
+  state.notes = document.getElementById('studyNotes').value;
+  saveState();
+  alert('笔记已保存！📝');
+}
+
+function exportData() {
+  const data = {
+    state: state,
+    exportedAt: new Date().toISOString(),
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = '鱼鱼听力学习数据_' + new Date().toISOString().split('T')[0] + '.json';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// ============ STATS ============
+function updateStats() {
+  const yearsDone = Object.keys(state.yearsDone).length;
+  document.getElementById('yearsDone').textContent = yearsDone;
+
+  const scores = Object.values(state.scores);
+  if (scores.length > 0) {
+    const avg = Math.round(scores.reduce((a,b) => a+b, 0) / scores.length / 20 * 100);
+    document.getElementById('avgScore').textContent = avg + '%';
+  }
+
+  document.getElementById('totalCorrect').textContent = state.totalCorrect || 0;
+  document.getElementById('vocabLearned').textContent = Object.keys(state.vocabLearned).length;
+  document.getElementById('practiceDays').textContent = Object.keys(state.practiceDays).length;
+}
+
+function updateDailyCheckin() {
+  const today = new Date().toISOString().split('T')[0];
+  if (!state.practiceDays[today]) {
+    // Don't auto-mark, only count explicit practice
+  }
+}
+
+// ============ UTILS ============
+function escapeHtml(text) {
+  if (!text) return '';
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+// Keyboard shortcuts
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'ArrowLeft') {
+    // Previous year
+    const years = Object.keys(YEAR_DATA).sort();
+    const idx = years.indexOf(String(currentYear));
+    if (idx > 0) selectYear(years[idx - 1]);
+  } else if (e.key === 'ArrowRight') {
+    const years = Object.keys(YEAR_DATA).sort();
+    const idx = years.indexOf(String(currentYear));
+    if (idx < years.length - 1) selectYear(years[idx + 1]);
+  } else if (e.key === ' ' && document.getElementById('tab-vocab').classList.contains('active')) {
+    e.preventDefault();
+    flipCard();
+  }
+});
+
+// Init
+init();
+</script>
+</body>
+</html>
